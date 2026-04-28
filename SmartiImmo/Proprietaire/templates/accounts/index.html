@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'styles/style.css' %}">
+</head>
+<body>
+    <div class="container   " id="container">
+
+        <!-- login etudiant -->
+        <div class="form-box etudiant">
+            <form action= method="POST">
+                <h1>Login</h1>
+                {{loginForm.as_p}}
+                
+                <button type="submit" class="btn">Login</button>
+            </form>
+        </div>
+
+        <!-- login professeur -->
+        <div class="form-box professeur">
+            <form action="">
+                <h1>Register</h1>
+                {{registerForm.as_p}}
+                
+                <button type="submit" class="btn">Login</button>
+            </form>
+        </div>
+
+        <!-- toggle box -->
+        <div class="toggle-box">
+            <!-- toggle left -->
+            <div class="toggle-pannel left">
+                <h1>Login</h1>
+                <p>Vous avez pas de compte ?</p>
+                <button class="btn professeur-btn">Sign up</button>
+            </div>
+            <!-- toggle right -->
+            <div class="toggle-pannel right">
+                <h1>Register</h1>
+                <p>vous avez un compt ?</p>
+                <button class="btn etudiant-btn">Log in</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const container = document.querySelector('.container');
+        const profBtn = document.querySelector('.professeur-btn');
+        const etuBtn = document.querySelector('.etudiant-btn');
+
+        profBtn.addEventListener('click', () => {
+            container.classList.add('active');
+        });
+
+        etuBtn.addEventListener('click', () => {
+            container.classList.remove('active');
+        });
+    </script>
+</body>
+</html>

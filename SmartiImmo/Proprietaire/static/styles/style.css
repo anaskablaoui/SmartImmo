@@ -1,0 +1,212 @@
+* {
+    font-family: "Poppins", sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    list-style: none;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(90deg, #e2e2e2, #006A59);
+}
+
+.container {
+    position: relative;
+    width: 850px;
+    height: 550px;
+    background-color: #fff;
+    margin: 20px;
+    border-radius: 30px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.2);
+    overflow: hidden;
+}
+
+.container h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.container p {
+    font-size: 14.5px;
+    margin: 15px 0;
+}
+
+form {
+    width: 100%;
+}
+
+/* Form boxes */
+.form-box {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 50%;
+    height: 100%;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+    padding: 40px;
+    text-align: center;
+    z-index: 1;
+    transition: left 0.6s ease-in-out, visibility 0s 0.6s;
+}
+
+/* Etudiant form — starts on right side */
+.form-box.etudiant {
+    left: 50%;
+    visibility: visible;
+}
+
+/* When active, etudiant slides to left side */
+.container.active .form-box.etudiant {
+    left: 0;
+    transition: left 0.6s ease-in-out;
+}
+
+/* Professeur form — starts hidden off screen to the right */
+.form-box.professeur {
+    left: 100%;
+    visibility: hidden;
+}
+
+/* When active, professeur slides in to right side */
+.container.active .form-box.professeur {
+    left: 0%;
+    visibility: visible;
+    transition: left 0.6s ease-in-out, visibility 0s;
+}
+
+/* Django form fields */
+form p {
+    width: 100%;
+    margin-bottom: 16px;
+    text-align: left;
+}
+
+form p label {
+    display: block;
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 4px;
+}
+
+form p input,
+form p select,
+form p textarea {
+    width: 100%;
+    padding: 13px 20px;
+    background: #eee;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    color: #333;
+    font-weight: 500;
+    font-family: "Poppins", sans-serif;
+}
+
+form p input::placeholder {
+    color: #888;
+    font-weight: 400;
+}
+
+.btn {
+    width: 100%;
+    height: 48px;
+    background: #006A59;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #fff;
+    margin-top: 10px;
+}
+
+/* Toggle box */
+.toggle-box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* The blue sliding blob */
+.toggle-box::before {
+    content: '';
+    position: absolute;
+    left: -250%;
+    width: 300%;
+    height: 100%;
+    background: #006A59;
+    border-radius: 150px;
+    z-index: 2;
+    transition: left 1.8s ease-in-out;
+}
+
+.container.active .toggle-box::before {
+    left: 50%;
+}
+
+/* Toggle panels */
+.toggle-pannel {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    padding: 40px;
+    text-align: center;
+    transition: left 0.6s ease-in-out, right 0.6s ease-in-out;
+    pointer-events: all;
+}
+
+.toggle-pannel.left {
+    left: 0;
+    transition-delay: 1.2s;
+}
+
+.container.active .toggle-pannel.left {
+    left: -50%;
+    transition-delay: 0.6s;
+}
+
+.toggle-pannel.right {
+    right: -50%;
+    transition-delay: 0.6s;
+}
+
+.container.active .toggle-pannel.right {
+    right: 0;
+    transition-delay: 1.2s;
+}
+
+.toggle-pannel p {
+    margin-bottom: 20px;
+}
+
+.toggle-pannel .btn {
+    width: 160px;
+    height: 46px;
+    background: transparent;
+    border: 2px solid #fff;
+    box-shadow: none;
+    pointer-events: all;
+}
