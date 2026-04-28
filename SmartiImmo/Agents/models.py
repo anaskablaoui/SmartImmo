@@ -4,7 +4,7 @@ from Proprietaire.models import Proprietaire,Propriete
 
 # Create your models here.
 class Agents(models.Model):
-    matricule=models.CharField(max_length=12,unique=True,primary_key=True       )
+    matricule=models.CharField(max_length=12,unique=True,primary_key=True)
     nom=models.CharField(max_length=50,unique=False)
     prenom=models.CharField(max_length=50,unique=False)
     CIN=models.CharField(max_length=10,unique=True)
