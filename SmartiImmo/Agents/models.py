@@ -1,20 +1,48 @@
 from django.db import models
 from Locataire.models import Locataire
 from Proprietaire.models import Proprietaire,Propriete
+from django.contrib.auth.models import AbstractUser, Group, Permission
 
 # Create your models here.
-class Agents(models.Model):
-    matricule=models.CharField(max_length=12,unique=True,primary_key=True       )
-    nom=models.CharField(max_length=50,unique=False)
-    prenom=models.CharField(max_length=50,unique=False)
-    CIN=models.CharField(max_length=10,unique=True)
-    password=models.CharField(max_length=20,unique=True)
-    telephone=models.CharField(max_length=10,unique=True)
-    email=models.CharField(max_length=50,unique=True)
 
+
+class Agents(AbstractUser):
+
+    username = None  
+    matricule = models.CharField(max_length=12, unique=True, primary_key=True)
+    nom = models.CharField(max_length=50, unique=False)
+    prenom = models.CharField(max_length=50, unique=False)
+    CIN = models.CharField(max_length=10, unique=True)
+    telephone = models.CharField(max_length=10, unique=True)
+
+    USERNAME_FIELD = 'matricule'
+    REQUIRED_FIELDS = ['email', 'nom', 'prenom', 'CIN', 'telephone']  # Champs requis pour createsuperuser
+    
+    class Meta:
+        verbose_name = 'Agent'
+        verbose_name_plural = 'Agents'
+    
+    # Redéfinir les relations ManyToMany pour éviter les conflits
+    groups = models.ManyToManyField(
+        Group,
+        related_name="agents_groups",
+        related_query_name="agent",
+        blank=True,
+        verbose_name='groups',
+        help_text='The groups this user belongs to.'
+    )
+    
+    user_permissions = models.ManyToManyField(
+        Permission,
+        related_name="agents_permissions",
+        related_query_name="agent",
+        blank=True,
+        verbose_name='user permissions',
+        help_text='Specific permissions for this user.'
+    )
+    
     def __str__(self):
         return f"{self.nom} {self.prenom}"
-
 class Baux(models.Model):
     id=models.IntegerField(unique=True,primary_key=True)
     locataire=models.ForeignKey(Locataire,on_delete=models.CASCADE,null=False,related_name='Baux')
