@@ -10,6 +10,10 @@ class RegisterForm(forms.ModelForm):
         'class':'input',
         'placeholder':'entrer password'
     }))
+    cin=forms.CharField(widget=forms.TextInput(attrs={
+        'class':'input',
+        'placeholder':'entrer CIN'
+    }))
     email=forms.EmailField(widget=forms.EmailInput(attrs={
         'class':'input',
         'placeholder':'entrer email'
@@ -22,21 +26,20 @@ class RegisterForm(forms.ModelForm):
     }))
     class Meta:
         model=Proprietaire
-        fields = ['nom','prenom','email','password','password_confirm']
+        fields = ['nom','prenom','email','cin','password','password_confirm']
     
     def clean(self):
-        self.cleaned_data=super().clean()
-        self.cleaned_data=self.cleaned_data.get('prenom')
-        self.cleaned_data=self.cleaned_data.get('nom')
-        self.password=self.cleaned_data.get('password')
-        self.password_confirm=self.cleaned_data.get('password_confirm')
-        #check if the password match 
-        if self.password and self.password_confirm and self.password != self.password_confirm:
-            raise forms.ValidationError(f"password does not match ")
-        return self.cleaned_data
+        cleaned_data = super().clean()  
+        password = cleaned_data.get('password')
+        password_confirm = cleaned_data.get('password_confirm')
+
+        if password and password_confirm and password != password_confirm:
+            raise forms.ValidationError("Les mots de passe ne correspondent pas.")
+
+        return cleaned_data  
         
 
-class LoginForm(forms.ModelForm):
+class LoginForm(forms.Form):
     email=forms.EmailField(widget=forms.EmailInput(attrs={
         'class':'input',
         'placeholder':'entrer email'

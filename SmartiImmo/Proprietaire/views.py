@@ -37,12 +37,18 @@ def auth_view(request):
                 email    = register_form.cleaned_data.get("email")
                 password = register_form.cleaned_data.get("password")
                 proprietaire = Proprietaire.objects.create_user(
-                    nom=nom, prenom=prenom, email=email, password=password
+                    email=email,
+                    password=password,
+                    nom=nom,
+                    prenom=prenom,
                 )
                 login(request, proprietaire)
                 return redirect("home")
             else:
                 error = "Veuillez corriger les erreurs."
+
+    if request.user.is_authenticated:
+        return redirect("home")
 
     return render(request, "accounts/index.html", {
         "loginForm": login_form,
@@ -50,8 +56,14 @@ def auth_view(request):
         "error": error,
     })
 
+def logoutView(request):
+    if request.method == "POST":
+        logout(request)
+        return redirect('auth')
+    else:
+        return redirect('home')
 
 
-@login_required
+@login_required(login_url='/proprietaire/')
 def homeView(request):
     return render(request, 'home/index.html')
