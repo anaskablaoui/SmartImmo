@@ -1,57 +1,67 @@
 from django import forms
+from accounts.models import CustomUser
 from .models import Proprietaire
 
-class RegisterForm(forms.ModelForm):
-    nom=forms.CharField(widget=forms.TextInput(attrs={
-        'class':'input',
-        'placeholder':'enter nom'
+
+class RegisterForm(forms.Form):
+    nom = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'input',
+        'placeholder': 'Entrer nom'
     }))
-    prenom=forms.CharField(widget=forms.TextInput(attrs={
-        'class':'input',
-        'placeholder':'entrer password'
+    prenom = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'input',
+        'placeholder': 'Entrer prénom'
     }))
-    cin=forms.CharField(widget=forms.TextInput(attrs={
-        'class':'input',
-        'placeholder':'entrer CIN'
+    email = forms.EmailField(widget=forms.EmailInput(attrs={
+        'class': 'input',
+        'placeholder': 'Entrer email'
     }))
-    email=forms.EmailField(widget=forms.EmailInput(attrs={
-        'class':'input',
-        'placeholder':'entrer email'
+    cin = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'input',
+        'placeholder': 'Entrer CIN'
     }))
-    password=forms.CharField(widget=forms.PasswordInput(attrs={
-        'class':'input'
+    telephone = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'input',
+        'placeholder': 'Entrer téléphone'
     }))
-    password_confirm=forms.CharField(widget=forms.PasswordInput(attrs={
-        'class':'input'
+    password = forms.CharField(widget=forms.PasswordInput(attrs={
+        'class': 'input',
+        'placeholder': 'Entrer mot de passe'
     }))
-    class Meta:
-        model=Proprietaire
-        fields = ['nom','prenom','email','cin','password','password_confirm']
-    
+    password_confirm = forms.CharField(widget=forms.PasswordInput(attrs={
+        'class': 'input',
+        'placeholder': 'Confirmer mot de passe'
+    }))
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if CustomUser.objects.filter(email=email).exists():
+            raise forms.ValidationError("Cet email est déjà utilisé.")
+        return email
+
+    def clean_cin(self):
+        cin = self.cleaned_data.get('cin')
+        if Proprietaire.objects.filter(cin=cin).exists():
+            raise forms.ValidationError("Ce CIN est déjà utilisé.")
+        return cin
+
     def clean(self):
-        cleaned_data = super().clean()  
+        cleaned_data = super().clean()
         password = cleaned_data.get('password')
         password_confirm = cleaned_data.get('password_confirm')
 
         if password and password_confirm and password != password_confirm:
             raise forms.ValidationError("Les mots de passe ne correspondent pas.")
 
-        return cleaned_data  
-        
+        return cleaned_data
+
 
 class LoginForm(forms.Form):
-    email=forms.EmailField(widget=forms.EmailInput(attrs={
-        'class':'input',
-        'placeholder':'entrer email'
+    email = forms.EmailField(widget=forms.EmailInput(attrs={
+        'class': 'input',
+        'placeholder': 'Entrer email'
     }))
-
     password = forms.CharField(widget=forms.PasswordInput(attrs={
-        'class':'input',
-        'placeholder':'entrer password'
+        'class': 'input',
+        'placeholder': 'Entrer mot de passe'
     }))
-
-    class Meta:
-        model=Proprietaire
-        fields= ['email','password']
-
-    

@@ -4,11 +4,11 @@ from .models import Agents,Baux,Contrat
 
 @admin.register(Agents)
 class AgentsAdmin(admin.ModelAdmin):
-    list_display=('matricule','nom','prenom','CIN','password','telephone','email')
+    list_display=('user','matricule','cin','telephone')
 
 @admin.register(Baux)
 class BauxAdmin(admin.ModelAdmin):
-    liste_display=('locataire','proprietaire','prix','date_debut','debut_sortie')
+    list_display=('locataire','proprietaire','prix','date_debut','date_sortie')
 
 @admin.register(Contrat)
 class ContratAdmin(admin.ModelAdmin):

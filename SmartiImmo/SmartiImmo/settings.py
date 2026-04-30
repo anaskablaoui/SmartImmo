@@ -38,10 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    'accounts.apps.AccountsConfig',
     'Administrateur',
     'Agents',
     'Locataire',
-    'Proprietaire',
+    'Proprietaire'
 ]
 
 MIDDLEWARE = [
@@ -129,7 +131,7 @@ STATICFIELDSDIRS = (
     os.path.join(BASE_DIR,'static')
 )
 
-AUTH_USER_MODEL = 'Proprietaire.Proprietaire'
+AUTH_USER_MODEL = 'accounts.CustomUser'
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
@@ -139,3 +141,6 @@ LOGIN_URL = '/proprietaire/'
 LOGIN_REDIRECT_URL = '/proprietaire/home/'
 
 CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:8000']
+
+MEDIA_ROOT= os.path.join(BASE_DIR,'media')
+MEDIA_URL = '/media/'

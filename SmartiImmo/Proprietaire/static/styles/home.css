@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
 * {
     font-family: "Poppins", sans-serif;
     margin: 0;
@@ -9,70 +11,269 @@
 
 body {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
     min-height: 100vh;
     background: linear-gradient(90deg, #006A59, #e2e2e2);
 }
 
-@keyframes fade {
-    from { opacity: 0; transform: translateY(10px); }
-    to   { opacity: 1; transform: translateY(0); }
-}
-
+/* ── SIDEBAR ─────────────────────────────────── */
 .sidebar {
     background-color: #006A59;
-    width: 220px;
-    min-width: 220px;
+    width: 230px;
+    min-width: 230px;
     height: 100vh;
     position: fixed;
     left: 0;
     top: 0;
     padding: 2rem 0;
-    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
-    z-index: 1000;
     display: flex;
     flex-direction: column;
-    border-radius: 10px;
+    z-index: 1000;
+    box-shadow: 4px 0 24px rgba(0,0,0,0.12);
 }
 
 .sidebar h2 {
-    color: #fff;
-    font-size: 15px;
+    color: #ffffff;
+    font-size: 14px;
     font-weight: 500;
-    padding: 0 1.25rem 1.5rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    margin-bottom: 0.75rem;
+    padding: 0 1.4rem 1.4rem;
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+    margin-bottom: 1rem;
+    letter-spacing: 0.02em;
 }
 
 .sidebar ul {
-    list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 2px;
     padding: 0 0.75rem;
+    flex: 1;
 }
 
 .sidebar ul li a {
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 10px 12px;
+    padding: 10px 14px;
     border-radius: 8px;
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 14px;
+    color: rgba(255,255,255,0.65);
+    font-size: 13.5px;
     cursor: pointer;
     transition: background 0.2s, color 0.2s;
 }
 
 .sidebar ul li a:hover {
-    background: rgba(255, 255, 255, 0.15);
-    color: #fff;
+    background: rgba(255,255,255,0.1);
+    color: #ffffff;
 }
 
 .sidebar ul li a.active {
-    background: rgba(255, 255, 255, 0.25);
-    color: #fff;
+    background: rgba(255,255,255,0.2);
+    color: #ffffff;
     font-weight: 500;
+}
+
+.sidebar form {
+    padding: 0 0.75rem 0.5rem;
+    margin-top: auto;
+}
+
+.sidebar form button {
+    width: 100%;
+    padding: 9px 0;
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 8px;
+    background: transparent;
+    color: rgba(255,255,255,0.65);
+    font-family: "Poppins", sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+.sidebar form button:hover {
+    background: rgba(255,255,255,0.12);
+    color: #ffffff;
+}
+
+/* ── MAIN ─────────────────────────────────────── */
+main {
+    margin-left: 230px;
+    flex: 1;
+    height: 100vh;
+    padding: 30px 36px;
+    overflow-y: auto;
+}
+
+/* ── PANELS ───────────────────────────────────── */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.panel {
+    display: none;
+    width: 100%;
+    height: 100%;
+}
+
+.panel.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+/* ── DASHBOARD ────────────────────────────────── */
+.dashboard-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    height: 100%;
+}
+
+.dashboard-content .info {
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 2px 12px rgba(0,106,89,0.08);
+    width: 100%;
+    height: 20%;
+    overflow: auto;
+}
+
+.dashboard-content .stats {
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 2px 12px rgba(0,106,89,0.08);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 16px;
+    padding: 20px;
+    width: 100%;
+    height: 30%;
+    overflow: auto;
+}
+
+.stat-card {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 20px 22px;
+    box-shadow: 0 2px 12px rgba(0,106,89,0.08);
+    border-top: 3px solid #00897B;
+}
+
+.stat-card .label {
+    font-size: 12px;
+    color: #888888;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 8px;
+}
+
+.stat-card .value {
+    font-size: 26px;
+    font-weight: 600;
+    color: #004d40;
+}
+
+.dashboard-content .Historique {
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 2px 12px rgba(0,106,89,0.08);
+    width: 100%;
+    height: 50%;
+    overflow: auto;
+}
+
+/* ── PROPRIETE & BAUX ─────────────────────────── */
+#propriete,
+#baux {
+    display: none;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    height: 100%;
+}
+
+#propriete.active,
+#baux.active {
+    display: flex;
+    animation: fadeIn 0.3s ease;
+}
+
+.recherch {
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 2px 12px rgba(0,106,89,0.08);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 22px;
+    width: 100%;
+    height: 12%;
+}
+
+.recherch input[type="text"] {
+    flex: 1;
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+    padding: 9px 14px;
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.recherch input[type="text"]:focus {
+    border-color: #006A59;
+}
+
+.recherch button {
+    background: #006A59;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 9px 20px;
+    font-family: "Poppins", sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.recherch button:hover {
+    background: #004d40;
+}
+
+.tableBaux {
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 2px 12px rgba(0,106,89,0.08);
+    width: 100%;
+    height: 88%;
+    overflow-x: auto;
+    overflow-y: auto;
+}
+
+/* ── MESSAGE & CONTRAT ────────────────────────── */
+#message,
+#contrat {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+#message.active,
+#contrat.active {
+    display: flex;
+    animation: fadeIn 0.3s ease;
+}
+
+.panel-placeholder {
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 2px 12px rgba(0,106,89,0.08);
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    color: #aaaaaa;
+    font-size: 15px;
 }

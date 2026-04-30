@@ -4,4 +4,4 @@ from .models import Locataire
 
 @admin.register(Locataire)
 class LocataireAdmin(admin.ModelAdmin):
-    list_display=('id','email','nom','prenom','Cin','Telephone','password')
+    list_display=('id','user','cin','telephone')

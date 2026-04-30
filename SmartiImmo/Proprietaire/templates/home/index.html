@@ -25,20 +25,22 @@
 
     <main>
         <!--partie dashboard-->
-        <article>
-            <div class="info">
+        <article id="dashboard" class="panel active">
+            <div class="dashboard-content">
+                <div class="info">
 
+                </div>
+
+                <div class="stats">
+
+                </div>
+                <div class="Historique">
+
+                </div>
             </div>
-
-            <div class="stats">
-
-            </div>
-            <div class="Historique">
-
-            </div>
-        </article>
+        </article >
         <!--propriete-->
-        <article >
+        <article id="propriete" class="panel">
             <div class="recherch">
 
             </div>
@@ -47,7 +49,7 @@
             </div>
         </article>
         <!-- partie BAux-->
-        <article>
+        <article id="baux" class="panel">
             <div class="recherch">
 
             </div>
@@ -56,14 +58,61 @@
             </div>
         </article>
         <!--message-->
-        <article>
+        <article id="message" class="pannel">
 
         </article>
         <!--offre de contrat-->
-        <article>
+        <article id="contrat" class="pannel">
 
         </article>
         
     </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+    const links = document.querySelectorAll('.nav_link');
+
+    // Mapping lien → id du panel
+    const linkMap = {
+        'Dashboard':                'dashboard',
+        'Propriete':                'propriete',
+        'Baux/historique_location': 'baux',
+        'message':                  'message',
+        'offre de contrat':         'contrat',
+    };
+
+    function activatePanel(targetId) {
+        // Cacher tous les panels
+        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+
+        // Retirer active de tous les liens
+        links.forEach(l => l.classList.remove('active'));
+
+        // Afficher le bon panel
+        const panel = document.getElementById(targetId);
+        if (panel) panel.classList.add('active');
+    }
+
+    links.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const text = link.textContent.trim();
+            const targetId = linkMap[text];
+            if (!targetId) return;
+
+            // Activer le lien cliqué
+            links.forEach(l => l.classList.remove('active'));
+            link.classList.add('active');
+
+            activatePanel(targetId);
+        });
+    });
+
+    // Activer dashboard au chargement
+    activatePanel('dashboard');
+    links[0].classList.add('active');
+});
+    </script>
 </body>
 </html>
