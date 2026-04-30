@@ -1,6 +1,57 @@
 
 from django import forms
 from .models import Agents
+from accounts.models import CustomUser
+# 1. Formulaire custom pour créer un Agent + son User en même temps
+class AgentCreationForm(forms.ModelForm):
+    # Champs du CustomUser à remplir
+    nom= forms.CharField(label="Nom")
+    prenom= forms.CharField(label="Prénom")
+    email = forms.EmailField(label="Email", required=False)
+    password1 = forms.CharField(label="Mot de passe", widget=forms.PasswordInput)
+    password2 = forms.CharField(label="Confirmer le mot de passe", widget=forms.PasswordInput)
+
+    class Meta:
+        model = Agents
+        fields = ('matricule', 'cin', 'telephone')  # sans 'user'
+
+    def clean(self):
+        cleaned_data = super().clean()
+        p1 = cleaned_data.get("password1")
+        p2 = cleaned_data.get("password2")
+        if p1 and p2 and p1 != p2:
+            raise forms.ValidationError("Les mots de passe ne correspondent pas.")
+        return cleaned_data
+
+    def clean_username(self):
+        username = self.cleaned_data.get("username")
+        if CustomUser.objects.filter(username=username).exists():
+            raise forms.ValidationError("Ce nom d'utilisateur existe déjà.")
+        return username
+
+    def save(self, commit=True):
+        # Créer le CustomUser avec le rôle 'agent'
+        user = CustomUser.objects.create_user(
+            nom=self.cleaned_data['nom'],
+            prenom=self.cleaned_data['prenom'],
+            email=self.cleaned_data.get('email', ''),
+            password=self.cleaned_data['password1'],
+            role='agent'  # 👈 adapte selon ton champ role dans CustomUser
+        )
+        agent = super().save(commit=False)
+        agent.user = user
+        if commit:
+            agent.save()
+        return agent
+
+
+# 2. Formulaire pour la modification (garde le user existant)
+class AgentChangeForm(forms.ModelForm):
+    class Meta:
+        model = Agents
+        fields = '__all__'
+
+
 
 class loginForm(forms.ModelForm):
     email=forms.EmailField(widget=forms.EmailInput(attrs={
