@@ -23,11 +23,6 @@ class AgentCreationForm(forms.ModelForm):
             raise forms.ValidationError("Les mots de passe ne correspondent pas.")
         return cleaned_data
 
-    def clean_username(self):
-        username = self.cleaned_data.get("username")
-        if CustomUser.objects.filter(username=username).exists():
-            raise forms.ValidationError("Ce nom d'utilisateur existe déjà.")
-        return username
 
     def save(self, commit=True):
         # Créer le CustomUser avec le rôle 'agent'
@@ -35,6 +30,7 @@ class AgentCreationForm(forms.ModelForm):
             nom=self.cleaned_data['nom'],
             prenom=self.cleaned_data['prenom'],
             email=self.cleaned_data.get('email', ''),
+            matricule=self.cleaned_data['matricule'],
             password=self.cleaned_data['password1'],
             role='agent'  # 👈 adapte selon ton champ role dans CustomUser
         )

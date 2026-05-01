@@ -16,10 +16,10 @@ def create_profile(sender, instance, created, **kwargs):
         'administrateur': lambda: Administrateur.objects.create(
             user=instance, matricule=instance.matricule or ''
         ),
-        'agent': lambda: Agents.objects.create(
-            user=instance, matricule=instance.matricule or '',
-            cin='', telephone=''
-        ),
+        #'agent': lambda: Agents.objects.create(
+         #   user=instance, matricule=instance.matricule or '',
+          #  cin='', telephone=''
+        #),
         'locataire': lambda: Locataire.objects.create(
             user=instance, cin='', telephone=''
         ),
