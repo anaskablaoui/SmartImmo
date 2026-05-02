@@ -22,7 +22,7 @@ class LoginView(View):
             user = authenticate(request, email=email, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('home')
+                return redirect('dashboard')
             else:
                 messages.error(request, 'Invalid email or password.')
         return render(request, 'login/index.html', {'form': form})
@@ -30,5 +30,5 @@ class LoginView(View):
 
 @login_required
 def homeView(request):
-    return redirect('home/home.html')
+    return render(request,'home/home.html')
     

@@ -4,7 +4,7 @@ from .views import LoginView, homeView
 
 urlpatterns = [
     path("", LoginView.as_view(), name="login"),
-    path("home/", homeView, name="home"),
+    path("home/", homeView, name="dashboard"),
     
    
 ]

@@ -13,14 +13,14 @@ def auth_view(request):
     register_form = RegisterForm()
     error         = None
 
-    # Déjà connecté → redirection directe
+    # Déjà connecté = redirection directe
     if request.user.is_authenticated:
         return redirect('home')
 
     if request.method == 'POST':
         form_type = request.POST.get('form_type')
 
-        # ── LOGIN ──────────────────────────────────────────────
+        # LOGIN
         if form_type == 'login':
             login_form = LoginForm(request.POST)
             if login_form.is_valid():
@@ -35,7 +35,7 @@ def auth_view(request):
                 else:
                     error = "Email ou mot de passe incorrect."
 
-        # ── REGISTER ───────────────────────────────────────────
+        # REGISTER
         elif form_type == 'register':
             register_form = RegisterForm(request.POST)
             if register_form.is_valid():
