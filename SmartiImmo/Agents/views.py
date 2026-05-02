@@ -27,6 +27,11 @@ class LoginView(View):
                 messages.error(request, 'Invalid email or password.')
         return render(request, 'login/index.html', {'form': form})
 
+def logoutView(request):
+    if request.method == 'POST':
+        logout(request)
+        return redirect('login')
+    return redirect('dashboard')
 
 @login_required
 def homeView(request):
