@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartImmo - Historique des Locations</title>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container navbar-container">
+            <a href="home.html" class="navbar-logo">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                SmartImmo
+            </a>
+            <div class="navbar-links">
+                <a href="home.html" class="nav-link">Appartements</a>
+                <a href="history.html" class="nav-link active">Historique</a>
+                <a href="maintenance.html" class="nav-link">Maintenance</a>
+                <a href="index.html" class="btn btn-outline" style="padding: 0.5rem 1rem;">Déconnexion</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container py-12">
+        <div class="page-header">
+            <h1 class="page-title">Mes Locations</h1>
+            <p class="page-subtitle">Consultez l'historique de vos locations passées et en cours.</p>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Appartement</th>
+                        <th>Adresse</th>
+                        <th>Période</th>
+                        <th>Loyer Mensuel</th>
+                        <th>Statut</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Current Rent -->
+                    <tr>
+                        <td>
+                            <div class="flex items-center gap-4">
+                                <img src="assets/apartment.png" alt="Appartement" style="width: 50px; height: 50px; border-radius: var(--radius-md); object-fit: cover; filter: hue-rotate(15deg);">
+                                <strong>Studio Moderne & Meublé</strong>
+                            </div>
+                        </td>
+                        <td>Quartier Latin, Paris</td>
+                        <td>01 Sept 2025 - Présent</td>
+                        <td>980 €</td>
+                        <td><span class="badge badge-success">En cours</span></td>
+                        <td><button class="btn btn-outline" style="padding: 0.25rem 0.75rem; font-size: 0.875rem;" onclick="alert('Téléchargement de la quittance de loyer...')">Quittance</button></td>
+                    </tr>
+                    <!-- Past Rent 1 -->
+                    <tr>
+                        <td>
+                            <div class="flex items-center gap-4">
+                                <div style="width: 50px; height: 50px; border-radius: var(--radius-md); background-color: var(--border-color); display: flex; align-items: center; justify-content: center; color: var(--text-secondary);">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+                                </div>
+                                <strong>Appartement T2 Cosy</strong>
+                            </div>
+                        </td>
+                        <td>Bordeaux Centre</td>
+                        <td>15 Fév 2023 - 31 Août 2025</td>
+                        <td>750 €</td>
+                        <td><span class="badge badge-info">Terminé</span></td>
+                        <td><button class="btn btn-outline" style="padding: 0.25rem 0.75rem; font-size: 0.875rem;" onclick="alert('Affichage du contrat archivé...')">Contrat</button></td>
+                    </tr>
+                    <!-- Past Rent 2 -->
+                    <tr>
+                        <td>
+                            <div class="flex items-center gap-4">
+                                <div style="width: 50px; height: 50px; border-radius: var(--radius-md); background-color: var(--border-color); display: flex; align-items: center; justify-content: center; color: var(--text-secondary);">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+                                </div>
+                                <strong>Chambre Étudiante</strong>
+                            </div>
+                        </td>
+                        <td>Campus Lyon</td>
+                        <td>01 Sept 2021 - 31 Juin 2022</td>
+                        <td>450 €</td>
+                        <td><span class="badge badge-info">Terminé</span></td>
+                        <td><button class="btn btn-outline" style="padding: 0.25rem 0.75rem; font-size: 0.875rem;" onclick="alert('Affichage du contrat archivé...')">Contrat</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
