@@ -78,7 +78,7 @@ def logoutView(request):
 
 
 @login_required
-def homeView(request):
+def home_View(request):
     locataire_obj, _ = Locataire.objects.get_or_create(user=request.user)
     return render(request, 'locataire/index.html', {
         'locataire': locataire_obj

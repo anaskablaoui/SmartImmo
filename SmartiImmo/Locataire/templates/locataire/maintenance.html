@@ -74,7 +74,7 @@
                 <a href="home.html" class="nav-link">Appartements</a>
                 <a href="history.html" class="nav-link">Historique</a>
                 <a href="maintenance.html" class="nav-link active">Maintenance</a>
-                <a href="index.html" class="btn btn-outline" style="padding: 0.5rem 1rem;">Déconnexion</a>
+                <form action=" {% url 'logoutLoc' %}">{% csrf_token %} <button type="submit" class="btn btn-outline" style="padding: 0.5rem 1rem;"></button></form>
             </div>
         </div>
     </nav>

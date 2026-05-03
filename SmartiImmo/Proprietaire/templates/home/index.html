@@ -101,11 +101,18 @@
         </article>
         <!--message-->
         <article id="message" class="pannel">
-
+            {% for maintenance in maintenances %}
+                <div class="card">
+                    <P>Date: {{maintenance.date}} </P>
+                    <p>prorpeitaire: {{maintenance.propriete}}</p>
+                    <p>description: {{maintenance.description}} </p>
+                    <p>Locataire: {{maintenance.locataire}} </p>
+                </div>
+            {% endfor %}
         </article>
         <!--offre de contrat-->
         <article id="contrat" class="pannel">
-
+            
         </article>
         
     </main>

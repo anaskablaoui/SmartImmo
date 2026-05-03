@@ -7,6 +7,7 @@ from accounts.models import CustomUser
 from .forms import RegisterForm, LoginForm,ajoutProprieteForm
 from .models import Proprietaire,Propriete
 from Agents.models import Baux
+from Locataire.models import Maintenance
 
 
 def auth_view(request):
@@ -124,3 +125,10 @@ class BauxListeView(ListView):
     def get_queryset(self):
         return Baux.objects.filter(user=self.request.user)
     
+class MessageListeView(ListView):
+    model=Maintenance
+    template_name='home/index.html'
+    context_object_name='maintenances'
+
+    def get_queryset(self):
+        return Maintenance.objects.filter(propriete__proprietaire__user=self.request.user)
