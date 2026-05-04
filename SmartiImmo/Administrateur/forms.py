@@ -3,10 +3,10 @@ from .models import Administrateur
 from accounts.models import CustomUser
 
 class adminLoginForm(forms.ModelForm):
-    matricule=forms.CharField(widget=forms.TextInput(
+    email=forms.EmailField(widget=forms.EmailInput(
         attrs={
             'class':'form-input',
-            'placeholder':'entrer matricule'
+            'placeholder':'entrer email'
         }
     ))
     password=forms.CharField(widget=forms.PasswordInput(
@@ -18,7 +18,7 @@ class adminLoginForm(forms.ModelForm):
     
     class Meta:
         model= Administrateur
-        fields = ['matricule','password']
+        fields = ['email','password']
 
 class AdministrateurCreationForm(forms.ModelForm):
     # Champs du CustomUser à remplir

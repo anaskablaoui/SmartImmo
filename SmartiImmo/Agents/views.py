@@ -23,7 +23,7 @@ class LoginView(View):
             user = authenticate(request, email=email, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('dashboard')
+                return redirect('agentDashboard')
             else:
                 messages.error(request, 'Invalid email or password.')
         return render(request, 'login/index.html', {'form': form})
@@ -31,10 +31,10 @@ class LoginView(View):
 def logoutView(request):
     if request.method == 'POST':
         logout(request)
-        return redirect('login')
-    return redirect('dashboard')
+        return redirect('agentLogin')
+    return redirect('agentDashboard')
 
-@login_required
+@login_required(login_url='/agent/')
 def homeView(request):
     return render(request,'home/home.html')
     

@@ -14,9 +14,9 @@ class LoginView(View):
     def post(self,request):
         form=adminLoginForm(request.POST)
         if form.is_valid():
-            matricule=form.cleaned_data['matricule']
+            email = form.cleaned_data['email']
             password = form.cleaned_data['password']
-            user = authenticate(request,matricule=matricule,password=password)
+            user = authenticate(request,email=email,password=password)
             if user is not None:
                 login(request,user)
                 return redirect('adminDashboard')
@@ -30,7 +30,7 @@ def logoutView(request):
         return redirect('adminLogin')
     return redirect('adminDashboard')
 
-@login_required
+@login_required(login_url='/administrateur/')
 def homeView(request):
     return render(request,'adminDashboard/index.html')
 

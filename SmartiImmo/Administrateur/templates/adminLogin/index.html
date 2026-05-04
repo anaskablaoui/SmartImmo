@@ -144,7 +144,7 @@
                 <p class="login-subtitle">Espace Administration</p>
             </div>
 
-            <form class="login-form" action="{% url 'adminDashboard' %}" method="post">
+            <form class="login-form" action="{% url 'adminLogin' %}" method="post">
                 {% csrf_token %}
                 {{ form.as_p }}
                 <button type="submit" class="btn-login">Se Connecter</button>

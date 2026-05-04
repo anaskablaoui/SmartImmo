@@ -41,7 +41,7 @@ class RegisterForm(forms.Form):
 
     def clean_cin(self):
         cin = self.cleaned_data.get('cin')
-        if Proprietaire.objects.filter(cin=cin).exists():
+        if Locataire.objects.filter(cin=cin).exists():
             raise forms.ValidationError("Ce CIN est déjà utilisé.")
         return cin
 
