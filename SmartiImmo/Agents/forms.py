@@ -1,6 +1,6 @@
 
 from django import forms
-from .models import Agents
+from .models import Agents, Baux
 from accounts.models import CustomUser
 # 1. Formulaire custom pour créer un Agent + son User en même temps
 class AgentCreationForm(forms.ModelForm):
@@ -65,3 +65,33 @@ class loginForm(forms.ModelForm):
     class Meta:
         model= Agents
         fields= ['email','password']
+
+class bauxForm(forms.ModelForm):
+    locataire=forms.CharField(widget=forms.TextInput(attrs={
+        'class':'input',
+        'placeholder':'Nom du locataire'
+        'placeholder':'Prénom du locataire'
+    }))
+    propriete=forms.CharField(widget=forms.TextInput(attrs={
+        'class':'input',
+        'placeholder':'Adresse de la propriété'
+    }))
+    prix=forms.DecimalField(widget=forms.NumberInput(attrs={
+        'class':'input',    
+        'placeholder':'Prix du bail'
+    }))
+    date_debut=forms.DateField(widget=forms.DateInput(attrs={
+        'class':'input',
+        'placeholder':'Date de début',
+        'type':'date'
+    }))
+    date_sortie=forms.DateField(widget=forms.DateInput(attrs={
+        'class':'input',
+        'placeholder':'Date de sortie',
+        'type':'date'
+    }))
+
+    
+    class Meta:
+        model = Baux
+        fields = '__all__'

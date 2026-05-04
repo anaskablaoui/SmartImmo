@@ -12,10 +12,12 @@
         <h2>Bonjour MOnsieur</h2>
         <ul>
             <li><a href="#" class="nav_link">Dashboard</a></li>
-            <li><a href="#" class="nav_link">Propriete</a></li>
-            <li><a href="#" class="nav_link">Baux/historique_location</a></li>
-            <li><a href="#" class="nav_link">message</a></li>
-            <li><a href="#" class="nav_link">offre de contrat</a></li>
+            <li><a href="#" class="nav_link">Baux</a></li>
+            <li><a href="#" class="nav_link">Contrats</a></li>
+            <li><a href="#" class="nav_link">Historiques</a></li>
+            <li><a href="#" class="nav_link">Offres de location</a></li>
+            <li><a href="#" class="nav_link">Maintenances</a></li>
+
         </ul>
         <form action="{% url 'logout' %}" method="post">
             {% csrf_token %}
@@ -39,30 +41,75 @@
                 </div>
             </div>
         </article >
-        <!--propriete-->
-        <article id="propriete" class="panel">
+        <!--Contrat-->
+        <article id="contrat" class="panel">
+            
             <div class="recherch">
 
             </div>
-            <div class="tableBaux">
-
-            </div>
-        </article>
-        <!-- partie BAux-->
+            <div class="tablecontrat">
+                <table>
+                    <tr>
+                        <th>agent</th>
+                        <th>Propriete</th>
+                        <th>pourcentage</th>
+                        <th>prix_min</th>
+                        <th>Date_Contrat</th>
+                        <th>Date_FinContrat</th>
+                    </tr>
+                    
+                    {% for contract in Contrats %}
+                        <tr>
+                            <td>{{ contract.agent.nom }} {{ contract.agent.prenom }}</td>
+                            <td>{{ contract.propriete.adresse }}</td>
+                            <td>{{ contract.pourcentage }}</td>
+                            <td>{{ contract.prix_min }}</td>
+                            <td>{{ contract.date_contrat }}</td>
+                            <td>{{ contract.date_finContrat }}</td>
+                        </tr>
+                    {% endfor %}
+                        
+                </table>
+        <!-- Baux -->
         <article id="baux" class="panel">
+            
             <div class="recherch">
 
             </div>
             <div class="tableBaux">
-
+                <table>
+                    <tr>
+                        <th>Locataire</th>
+                        <th>Propriete</th>
+                        <th>Prix</th>
+                        <th>Date Début</th>
+                        <th>Date Sortie</th>
+                    </tr>
+                    
+                    {% for bail in Baux %}
+                        <tr>
+                            <td>{{ bail.locataire.nom }} {{ bail.locataire.prenom }}</td>
+                            <td>{{ bail.propriete.adresse }}</td>
+                            <td>{{ bail.prix }}</td>
+                            <td>{{ bail.date_debut }}</td>
+                            <td>{{ bail.date_sortie }}</td>
+                        </tr>
+                    {% endfor %}
+                        
+                </table>
             </div>
         </article>
-        <!--message-->
-        <article id="message" class="pannel">
+        <!--Historiques-->
+        <article id="historiques" class="pannel">
 
         </article>
-        <!--offre de contrat-->
-        <article id="contrat" class="pannel">
+        <!--offres de location-->
+        <article id="offres" class="pannel">
+
+        </article>
+         
+        <!--Maintenances-->
+        <article id="maintenances" class="pannel">
 
         </article>
         
@@ -79,7 +126,8 @@
         'Propriete':                'propriete',
         'Baux/historique_location': 'baux',
         'message':                  'message',
-        'offre de contrat':         'contrat',
+        'offres de location':       'offres',
+        'Maintenances':             'maintenances',
     };
 
     function activatePanel(targetId) {

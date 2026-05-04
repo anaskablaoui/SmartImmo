@@ -5,8 +5,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from .forms import loginForm
-from .models import Agents
+from .models import Agents,Baux
 from django.contrib import messages
+from django.views.generic import ListView,DetailView
 
 # Create your views here.
 class LoginView(View):
@@ -37,3 +38,11 @@ def logoutView(request):
 def homeView(request):
     return render(request,'home/home.html')
     
+class BauxListView(ListView):
+    model = Baux
+    template_name = 'home/index.html'
+    context_object_name = 'Baux'
+    
+    # avoir juste les propriete de proprietaire connecté
+    def get_queryset(self):
+        return Baux.objects.filter(agent=self.request.user.agent)
