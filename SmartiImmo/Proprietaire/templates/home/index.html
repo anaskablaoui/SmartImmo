@@ -113,6 +113,14 @@
         <!--offre de contrat-->
         <article id="contrat" class="pannel">
             
+            {% for offre in offres %}
+                div class="card">
+                    <P>Propriete: {{offre.dateOffre}} </P>
+                    <p>prix: {{offre.propriet}} </p>
+                    <p>date_debut: {{offre.date_debut}} </p>
+                    <p>date_sortie: {{offre.date_sortie}} </p>
+            {% endfor %}
+                
         </article>
         
     </main>

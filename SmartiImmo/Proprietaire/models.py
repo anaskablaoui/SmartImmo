@@ -17,12 +17,14 @@ class Proprietaire(models.Model):
 
 
 class Propriete(models.Model):
+    nom          = models.CharField(max_length=100)
     ville        = models.CharField(max_length=50)
     adresse      = models.CharField(max_length=250, unique=True)
     proprietaire = models.ForeignKey(Proprietaire, on_delete=models.CASCADE,
                                      related_name='proprietes')
     etat         = models.CharField(max_length=250)
     image        = models.ImageField(null=True, blank=True, upload_to='Proprietaire/')
+    metrage      = models.FloatField()
 
     def __str__(self):
         return f"Propriété : {self.adresse}"

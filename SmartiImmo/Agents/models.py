@@ -44,3 +44,13 @@ class Contrat(models.Model):
     def __str__(self):
         return f"Contrat numero {self.id}"
     
+class Offre(models.Model):
+    id=models.IntegerField(unique=True,primary_key=True)
+    agent=models.ForeignKey(Agents,on_delete=models.CASCADE,null=False,related_name='offre')
+    propriete=models.ForeignKey(Propriete,on_delete=models.CASCADE,null=False,related_name='offre')
+    prix=models.DecimalField(max_digits=6,decimal_places=2)
+    pourcentage=models.DecimalField(max_digits=2,decimal_places=2)
+    date_offre=models.DateField()
+
+    def __str__(self):
+        return f"Offre numero {self.id}"

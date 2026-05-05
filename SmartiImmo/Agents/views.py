@@ -5,10 +5,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from .forms import loginForm
-from .models import Agents,Baux
+from .models import Agents,Baux,Contrat
 from django.contrib import messages
 from django.views.generic import ListView,DetailView
-
+from Locataire.models import Maintenance
+from Proprietaire.models import Propriete
+from Locataire.models import demandeLocation
 # Create your views here.
 class LoginView(View):
     def get(self, request):
@@ -38,6 +40,8 @@ def logoutView(request):
 def homeView(request):
     return render(request,'home/home.html')
     
+
+
 class BauxListView(ListView):
     model = Baux
     template_name = 'home/index.html'
@@ -46,6 +50,48 @@ class BauxListView(ListView):
     # avoir juste les propriete de proprietaire connecté
     def get_queryset(self):
         return Baux.objects.filter(agent=self.request.user.agent)
+    
+class BauxDetailView(DetailView):
+    model = Baux
+    template_name = 'home/baux_detail.html'
+    context_object_name = 'bail'
+    
+class ContratListView(ListView):
+    model = Contrat
+    template_name = 'home/index.html'
+    context_object_name = 'contrats'
+    
+    # avoir juste les propriete de proprietaire connecté
+    def get_queryset(self):
+        return Contrat.objects.filter(agent=self.request.user.agent)
+    
+class ContratDetailView(DetailView):
+    pass
 
-
+class maintenanceView(ListView):
+    model = Maintenance
+    template_name = 'home/index.html'
+    context_object_name = 'maintenances'
+    
+    # avoir juste les propriete de proprietaire connecté
+    def get_queryset(self):
+        return Maintenance.objects.filter(
+        propriete__contrat__agent=self.request.user.agent
+    ).distinct()
+        
+class demandeLocationView(ListView):
+    model = demandeLocation
+    template_name = 'home/index.html'
+    context_object_name = 'demandes'
+    
+    # avoir juste les propriete de proprietaire connecté
+    def get_queryset(self):
+        return demandeLocation.objects.filter(
+        propriete__contrat__agent=self.request.user.agent
+    ).distinct()
+        
+class proprieteListView(ListView):
+    model = Propriete
+    template_name = 'home/index.html'
+    context_object_name = 'proprietes'
         
