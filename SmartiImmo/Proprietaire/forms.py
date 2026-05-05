@@ -1,6 +1,6 @@
 from django import forms
 from accounts.models import CustomUser
-from .models import Proprietaire
+from .models import Proprietaire,Propriete
 
 
 class RegisterForm(forms.Form):
@@ -65,3 +65,21 @@ class LoginForm(forms.Form):
         'class': 'input',
         'placeholder': 'Entrer mot de passe'
     }))
+    
+
+class ajoutProprieteForm(forms.ModelForm):
+    ville = forms.CharField(widget=forms.TextInput(attrs={
+        'class':'input',
+        'placeholder':'Ville'}))
+    adresse=forms.CharField(widget=forms.Textarea(attrs={
+        'class':'input',
+        'placeholder':'taper votre adresse'
+    }))
+    image = forms.ImageField()
+    etat = forms.CharField(widget=forms.TextInput(attrs={
+        'class':'input',
+        'placeholder':'Ville'}))
+    
+    class Meta:
+        model = Propriete
+        fields = ['ville','adresse','image','etat']

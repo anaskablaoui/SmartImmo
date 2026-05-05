@@ -1,34 +1,156 @@
-{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'styles/style.css' %}">
-    <title>Document</title>
+    <title>SmartImmo - Connexion</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <style>
+        * {
+            font-family: "Poppins", sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            text-decoration: none;
+        }
+
+        /* ── VARIABLES ───────────────────────── */
+        :root {
+            --primary-color: #006A59;
+            --primary-dark:  #004d40;
+            --text-secondary: #888888;
+            --radius-lg: 16px;
+            --radius-md: 8px;
+        }
+
+        /* ── PAGE ────────────────────────────── */
+        .login-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(
+                rgba(15, 76, 58, 0.85),
+                rgba(9, 46, 35, 0.92)
+            );
+            padding: 1rem;
+        }
+
+        /* ── CARD ────────────────────────────── */
+        .login-card {
+            background: rgba(255, 255, 255, 0.97);
+            backdrop-filter: blur(10px);
+            padding: 3rem;
+            border-radius: var(--radius-lg);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+        }
+
+        /* ── HEADER ──────────────────────────── */
+        .login-header {
+            margin-bottom: 2.5rem;
+        }
+
+        .login-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .login-logo svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        .login-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* ── FORM ────────────────────────────── */
+        .login-form {
+            text-align: left;
+        }
+
+        /* Django as_p generates <p> tags */
+        .login-form p {
+            margin-bottom: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .login-form label {
+            font-size: 13px;
+            font-weight: 500;
+            color: #444;
+        }
+
+        .login-form input {
+            width: 100%;
+            border: 1px solid #dddddd;
+            border-radius: var(--radius-md);
+            padding: 10px 14px;
+            font-family: "Poppins", sans-serif;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .login-form input:focus {
+            border-color: var(--primary-color);
+        }
+
+        /* ── BUTTON ──────────────────────────── */
+        .btn-login {
+            width: 100%;
+            padding: 12px 0;
+            margin-top: 0.5rem;
+            background: var(--primary-color);
+            color: #ffffff;
+            border: none;
+            border-radius: var(--radius-md);
+            font-family: "Poppins", sans-serif;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-login:hover {
+            background: var(--primary-dark);
+        }
+    </style>
 </head>
 <body>
-    <div class="container" id="container">
 
-        <!-- login -->
-        <div class="form-box etudiant">
-            <form method="POST">  
-                {% csrf_token %}  
-                <input type="hidden" name="form_type" value="login">  
-                <h1>Login</h1>
+    <div class="login-page">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="login-logo">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                    SmartImmo
+                </div>
+                <p class="login-subtitle">Espace agent</p>
+            </div>
+
+            <form class="login-form" action="{% url 'agentLogin' %}" method="post">
+                {% csrf_token %}
                 {{ form.as_p }}
-                <button type="submit" class="btn">Login</button>
+                <button type="submit" class="btn-login">Se Connecter</button>
             </form>
         </div>
+    </div>
 
-        
-        <!-- toggle box -->
-        <div class="toggle-box">
-            <div class="toggle-pannel left">
-                <h1>Login</h1>
-                <p>Vous avez pas de compte ?</p>
-                <button class="btn professeur-btn">Sign up</button>
-            </div>
-        </div>
 </body>
 </html>

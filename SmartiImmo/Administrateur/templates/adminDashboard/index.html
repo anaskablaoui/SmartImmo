@@ -1,0 +1,184 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartImmo - Admin</title>
+    <link rel="stylesheet" href="{% static 'styles/admindashboard.css' %}">
+    <script defer src="{% static 'js/script.js' %}"></script>
+</head>
+<body>
+<aside class="sidebar">
+    <h2>Bonjour Administrateur</h2>
+    <ul>
+        <li><a href="#" class="nav_link active" data-target="dashboard">Dashboard</a></li>
+        <li><a href="#" class="nav_link" data-target="agent">Agents</a></li>
+        <li><a href="#" class="nav_link" data-target="proprietes">Propriétés</a></li>
+        <li><a href="#" class="nav_link" data-target="baux">Baux</a></li>
+    </ul>
+    <form action="{% url 'adminLogout' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Déconnexion</button>
+    </form>
+</aside>
+
+<main>
+
+    <!-- ══ DASHBOARD ══ -->
+    <article id="dashboard" class="panel active">
+        <div class="dashboard-content">
+            <div class="info" style="padding:20px;">
+                <h3 style="color:#006A59;font-size:18px;">Tableau de bord — SmartImmo</h3>
+                <p style="color:#888;font-size:13px;margin-top:6px;">Vue d'ensemble de la plateforme</p>
+            </div>
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="label">Agents</div>
+                    <div class="value">{{ total_agents }}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Propriétés</div>
+                    <div class="value">{{ total_proprietes }}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Baux</div>
+                    <div class="value">{{ total_baux }}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Locataires</div>
+                    <div class="value">{{ total_locataires }}</div>
+                </div>
+            </div>
+            <!-- Derniers baux dans l'historique -->
+            <div class="Historique">
+                <table style="width:100%;border-collapse:collapse;">
+                    <tr>
+                        <th style="background:#006A59;color:#fff;padding:12px 16px;text-align:left;font-size:12px;">Bail</th>
+                        <th style="background:#006A59;color:#fff;padding:12px 16px;text-align:left;font-size:12px;">Locataire</th>
+                        <th style="background:#006A59;color:#fff;padding:12px 16px;text-align:left;font-size:12px;">Propriété</th>
+                        <th style="background:#006A59;color:#fff;padding:12px 16px;text-align:left;font-size:12px;">Début</th>
+                        <th style="background:#006A59;color:#fff;padding:12px 16px;text-align:left;font-size:12px;">Fin</th>
+                        <th style="background:#006A59;color:#fff;padding:12px 16px;text-align:left;font-size:12px;">Prix</th>
+                    </tr>
+                    {% for bail in baux_list|slice:":5" %}
+                    <tr>
+                        <td style="padding:10px 16px;border-bottom:1px solid #f0f0f0;font-size:13px;color:#444;">{{ bail.id }}</td>
+                        <td style="padding:10px 16px;border-bottom:1px solid #f0f0f0;font-size:13px;color:#444;">{{ bail.locataire.user.nom }} {{ bail.locataire.user.prenom }}</td>
+                        <td style="padding:10px 16px;border-bottom:1px solid #f0f0f0;font-size:13px;color:#444;">{{ bail.propriete.adresse }}</td>
+                        <td style="padding:10px 16px;border-bottom:1px solid #f0f0f0;font-size:13px;color:#444;">{{ bail.date_debut }}</td>
+                        <td style="padding:10px 16px;border-bottom:1px solid #f0f0f0;font-size:13px;color:#444;">{{ bail.date_sortie }}</td>
+                        <td style="padding:10px 16px;border-bottom:1px solid #f0f0f0;font-size:13px;color:#444;">{{ bail.prix }} MAD</td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="6" style="text-align:center;padding:20px;color:#aaa;">Aucun bail enregistré</td></tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </article>
+
+    <!-- ══ AGENTS ══ -->
+    <article id="agent" class="panel">
+        <div class="recherch">
+            <input type="text" id="searchAgent" placeholder="Rechercher un agent..."
+                   oninput="filterTable('searchAgent','tableAgent')">
+            <button onclick="filterTable('searchAgent','tableAgent')">Rechercher</button>
+        </div>
+        <div class="tableBaux">
+            <table id="tableAgent">
+                <tr>
+                    <th>Matricule</th>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Email</th>
+                    <th>Téléphone</th>
+                    <th>CIN</th>
+                </tr>
+                {% for agent in agents_list %}
+                <tr>
+                    <td>{{ agent.matricule }}</td>
+                    <td>{{ agent.user.nom }}</td>
+                    <td>{{ agent.user.prenom }}</td>
+                    <td>{{ agent.user.email }}</td>
+                    <td>{{ agent.telephone }}</td>
+                    <td>{{ agent.cin }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="6" style="text-align:center;padding:20px;color:#aaa;">Aucun agent</td></tr>
+                {% endfor %}
+            </table>
+        </div>
+    </article>
+
+    <!-- ══ PROPRIÉTÉS ══ -->
+    <article id="proprietes" class="panel">
+        <div class="recherch">
+            <input type="text" id="searchProp" placeholder="Rechercher une propriété..."
+                   oninput="filterTable('searchProp','tableProp')">
+            <button onclick="filterTable('searchProp','tableProp')">Rechercher</button>
+        </div>
+        <div class="tableBaux">
+            <table id="tableProp">
+                <tr>
+                    <th>ID</th>
+                    <th>Adresse</th>
+                    <th>Ville</th>
+                    <th>Propriétaire</th>
+                    <th>État</th>
+                </tr>
+                {% for prop in proprietes_list %}
+                <tr>
+                    <td>{{ prop.id }}</td>
+                    <td>{{ prop.adresse }}</td>
+                    <td>{{ prop.ville }}</td>
+                    <td>{{ prop.proprietaire.user.nom }} {{ prop.proprietaire.user.prenom }}</td>
+                    <td>{{ prop.etat }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="5" style="text-align:center;padding:20px;color:#aaa;">Aucune propriété</td></tr>
+                {% endfor %}
+            </table>
+        </div>
+    </article>
+
+    <!-- ══ BAUX ══ -->
+    <article id="baux" class="panel">
+        <div class="recherch">
+            <input type="text" id="searchBaux" placeholder="Rechercher un bail..."
+                   oninput="filterTable('searchBaux','tableBauxList')">
+            <button onclick="filterTable('searchBaux','tableBauxList')">Rechercher</button>
+        </div>
+        <div class="tableBaux">
+            <table id="tableBauxList">
+                <tr>
+                    <th>N° Bail</th>
+                    <th>Locataire</th>
+                    <th>Propriété</th>
+                    <th>Propriétaire</th>
+                    <th>Agent</th>
+                    <th>Date Début</th>
+                    <th>Date Fin</th>
+                    <th>Prix</th>
+                </tr>
+                {% for bail in baux_list %}
+                <tr>
+                    <td>{{ bail.id }}</td>
+                    <td>{{ bail.locataire.user.nom }} {{ bail.locataire.user.prenom }}</td>
+                    <td>{{ bail.propriete.adresse }}</td>
+                    <td>{{ bail.proprietaire.user.nom }} {{ bail.proprietaire.user.prenom }}</td>
+                    <td>{{ bail.agent.user.nom }} {{ bail.agent.user.prenom }}</td>
+                    <td>{{ bail.date_debut }}</td>
+                    <td>{{ bail.date_sortie }}</td>
+                    <td>{{ bail.prix }} MAD</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="8" style="text-align:center;padding:20px;color:#aaa;">Aucun bail</td></tr>
+                {% endfor %}
+            </table>
+        </div>
+    </article>
+
+</main>
+</body>
+</html>

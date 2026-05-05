@@ -137,8 +137,8 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
 
-LOGIN_URL = '/proprietaire/'
-LOGIN_REDIRECT_URL = '/proprietaire/home/'
+LOGIN_URL = '/'
+LOGIN_REDIRECT_URL = '/'
 
 CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:8000']
 
