@@ -132,3 +132,4 @@ class MessageListeView(ListView):
 
     def get_queryset(self):
         return Maintenance.objects.filter(propriete__proprietaire__user=self.request.user)
+    

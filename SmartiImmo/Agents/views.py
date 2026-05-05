@@ -46,3 +46,22 @@ class BauxListView(ListView):
     # avoir juste les propriete de proprietaire connecté
     def get_queryset(self):
         return Baux.objects.filter(agent=self.request.user.agent)
+class BauxDetailView(DetailView):
+    model = Baux
+    template_name = 'home/baux_detail.html'
+    context_object_name = 'bail'
+
+class ContratListView(ListView):
+    model = Baux
+    template_name = 'home/index.html'
+    context_object_name = 'contrats'
+    
+    # avoir juste les propriete de proprietaire connecté
+    def get_queryset(self):
+        return Baux.objects.filter(agent=self.request.user.agent)
+class ContratDetailView(DetailView):
+    model = Baux
+    template_name = 'home/contrat_detail.html'
+    context_object_name = 'contrat'
+
+    

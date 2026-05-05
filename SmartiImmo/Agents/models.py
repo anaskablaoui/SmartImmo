@@ -44,3 +44,4 @@ class Contrat(models.Model):
     def __str__(self):
         return f"Contrat numero {self.id}"
     
+    
