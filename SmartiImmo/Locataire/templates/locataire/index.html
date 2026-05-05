@@ -138,94 +138,34 @@
 
         <div class="apartment-grid">
             <!-- Apartment 1 -->
+            
+            {% for appartement in contrats %}
             <div class="card apartment-card">
                 <div class="apartment-img-wrapper">
-                    <img src="assets/apartment.png" alt="Appartement Luxe" class="apartment-img">
-                    <span class="apartment-badge">Nouveau</span>
-                </div>
+                    {% if appartement.image %}
+                        <img src="{{ appartement.image.url }}" alt="{{ appartement.titre }}" class="apartment-img">
+                    {% endif %}
+        </div>
                 <div class="apartment-content">
-                    <div class="apartment-price">1 250 € <span style="font-size: 0.875rem; color: var(--text-secondary); font-weight: normal;">/ mois</span></div>
-                    <h3 class="apartment-title">Appartement Lumineux T3</h3>
+                    <div class="apartment-price">{{ appartement.prix }} DHS<span style="font-size: 0.875rem; color: var(--text-secondary); font-weight: normal;">/ mois</span></div>
+                    <h3 class="apartment-title"> {{appartement.propriete.nom}} </h3>
                     <div class="apartment-location">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                        Centre-ville, Paris
+                        {{ appartement.propriete.adresse }}
                     </div>
                     
                     <div class="apartment-features">
                         <div class="feature">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-                            75 m²
+                            {{ appartement.propriete.metrage }} m²
                         </div>
-                        <div class="feature">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
-                            3 Pièces
-                        </div>
-                        <div class="feature">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                            Immédiat
-                        </div>
+                        
                     </div>
                     
                     <button class="btn btn-primary btn-rent" onclick="alert('Demande de location envoyée !')">Demander à louer</button>
                 </div>
             </div>
-
-            <!-- Apartment 2 -->
-            <div class="card apartment-card">
-                <div class="apartment-img-wrapper">
-                    <img src="assets/apartment.png" alt="Appartement Moderne" class="apartment-img" style="filter: hue-rotate(15deg);">
-                </div>
-                <div class="apartment-content">
-                    <div class="apartment-price">980 € <span style="font-size: 0.875rem; color: var(--text-secondary); font-weight: normal;">/ mois</span></div>
-                    <h3 class="apartment-title">Studio Moderne & Meublé</h3>
-                    <div class="apartment-location">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                        Quartier Latin, Paris
-                    </div>
-                    
-                    <div class="apartment-features">
-                        <div class="feature">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-                            35 m²
-                        </div>
-                        <div class="feature">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
-                            1 Pièce
-                        </div>
-                    </div>
-                    
-                    <button class="btn btn-primary btn-rent" onclick="alert('Demande de location envoyée !')">Demander à louer</button>
-                </div>
-            </div>
-
-            <!-- Apartment 3 -->
-            <div class="card apartment-card">
-                <div class="apartment-img-wrapper">
-                    <img src="assets/apartment.png" alt="Duplex Premium" class="apartment-img" style="filter: saturate(1.2);">
-                    <span class="apartment-badge">Premium</span>
-                </div>
-                <div class="apartment-content">
-                    <div class="apartment-price">2 400 € <span style="font-size: 0.875rem; color: var(--text-secondary); font-weight: normal;">/ mois</span></div>
-                    <h3 class="apartment-title">Magnifique Duplex avec Terrasse</h3>
-                    <div class="apartment-location">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                        Montmartre, Paris
-                    </div>
-                    
-                    <div class="apartment-features">
-                        <div class="feature">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-                            120 m²
-                        </div>
-                        <div class="feature">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
-                            5 Pièces
-                        </div>
-                    </div>
-                    
-                    <button class="btn btn-primary btn-rent" onclick="alert('Demande de location envoyée !')">Demander à louer</button>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </main>
 
