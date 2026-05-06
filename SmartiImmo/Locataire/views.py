@@ -9,6 +9,7 @@ from accounts.models import CustomUser
 from .forms import RegisterForm, LoginForm,demandeMaintenanceForm
 from .models import Locataire,Maintenance
 from Agents.models import Contrat,Baux
+from Proprietaire.models import Propriete
 
 def auth_view(request):
     login_form    = LoginForm()
@@ -95,16 +96,23 @@ def historique_view(request):
 
 @login_required
 def maintenance_view(request):
+    locataire_obj, _ = Locataire.objects.get_or_create(user=request.user)
+    proprietes_locataire = Propriete.objects.filter(Baux__locataire=locataire_obj).distinct()
+    
     if request.method == 'POST':
         form = demandeMaintenanceForm(request.POST)
+        form.fields['propriete'].queryset = proprietes_locataire
         if form.is_valid():
             maintenance = form.save(commit=False)
-            maintenance.locataire = Locataire.objects.get(user=request.user)
+            maintenance.locataire = locataire_obj
+            maintenance.status = 'en attente'
+            maintenance.date=timezone.now().date()
             maintenance.save()
             messages.success(request, "Demande de maintenance soumise avec succès.")
             return redirect('maintenanceLoc')
     else:                                  
         form = demandeMaintenanceForm()
+        form.fields['propriete'].queryset = proprietes_locataire
 
     locataire_obj, _ = Locataire.objects.get_or_create(user=request.user)
     return render(request, 'locataire/maintenance.html', {

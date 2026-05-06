@@ -1,4 +1,5 @@
 from django import forms
+from Proprietaire.models import Propriete
 from accounts.models import CustomUser
 from .models import Locataire,Maintenance
 
@@ -68,9 +69,14 @@ class LoginForm(forms.Form):
 
 
 class demandeMaintenanceForm(forms.ModelForm):
-    titre = forms.CharField(widget=forms.TextInput(attrs={
+    titre  = forms.CharField(widget=forms.TextInput(attrs={
         'class': 'form-input',
         'placeholder': 'Titre de la maintenance'
+    }))
+    propriete= forms.ModelChoiceField(queryset=Propriete.objects.none(), widget=forms.Select(attrs={
+        'class': 'form-select',
+        'placeholder': 'Sélectionner une propriété',
+        'label': 'Propriété'
     }))
     description = forms.CharField(widget=forms.Textarea(attrs={
         'class': 'form-input',
@@ -80,4 +86,4 @@ class demandeMaintenanceForm(forms.ModelForm):
 
     class Meta:
         model = Maintenance
-        fields = ['titre', 'description']
+        fields = ['titre', 'propriete', 'description']

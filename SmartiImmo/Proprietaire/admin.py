@@ -7,4 +7,4 @@ class ProprietaireAdmin(admin.ModelAdmin):
 
 @admin.register(Propriete)
 class ProprieteAdmin(admin.ModelAdmin):
-    list_display=('id','ville','adresse','proprietaire','etat')
+    list_display=('id','nom','ville','adresse','proprietaire','etat')
