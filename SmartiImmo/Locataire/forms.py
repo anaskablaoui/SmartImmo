@@ -1,7 +1,7 @@
 from django import forms
 from Proprietaire.models import Propriete
 from accounts.models import CustomUser
-from .models import Locataire,Maintenance
+from .models import Locataire,Maintenance,demandeLocation
 
 
 class RegisterForm(forms.Form):
@@ -87,3 +87,23 @@ class demandeMaintenanceForm(forms.ModelForm):
     class Meta:
         model = Maintenance
         fields = ['titre', 'propriete', 'description']
+
+class demandeLocationForm(forms.ModelForm):
+    prix= forms.FloatField(widget=forms.NumberInput(attrs={
+        'class': 'form-input',
+        'placeholder': 'Entrer le prix proposé'
+    }))
+    date_entre= forms.DateField(widget=forms.DateInput(attrs={
+        'class': 'form-input',
+        'type': 'date',
+        'placeholder': 'Date d\'entrée'
+    }))
+    date_sortie= forms.DateField(widget=forms.DateInput(attrs={
+        'class': 'form-input',
+        'type': 'date',
+        'placeholder': 'Date de sortie'
+    }))
+
+    class Meta:
+        model= demandeLocation
+        fields = ['prix','date_entre','date_sortie']

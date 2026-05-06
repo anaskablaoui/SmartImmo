@@ -614,8 +614,13 @@
                     {% for propriete in proprietes %}
                     <tr>
                         <td>
-                            <img src="{{ propriete.image.url }}" alt="propriété"
+                            
+                            {% if propriete.image %}
+                                <img src="{{ propriete.image.url }}" alt="propriété"
                                  style="width:56px;height:42px;object-fit:cover;border-radius:8px;border:1px solid var(--border);">
+                            {% endif %}
+                                                            
+                            
                         </td>
                         <td class="cell-main">{{ propriete.adresse }}</td>
                         <td class="cell-muted">{{ propriete.ville }}</td>

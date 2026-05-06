@@ -1,4 +1,4 @@
-from time import timezone
+from django.utils import timezone
 
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth import authenticate, login, logout
@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.views.generic import ListView
 from accounts.models import CustomUser
-from .forms import RegisterForm, LoginForm,demandeMaintenanceForm
+from .forms import RegisterForm, LoginForm, demandeLocationForm,demandeMaintenanceForm,demandeLocation
 from .models import Locataire,Maintenance
 from Agents.models import Contrat,Baux
 from Proprietaire.models import Propriete
@@ -83,22 +83,26 @@ def logoutView(request):
 @login_required
 def home_View(request):
     locataire_obj, _ = Locataire.objects.get_or_create(user=request.user)
+    contrat = Contrat.objects.all()
     return render(request, 'locataire/index.html', {
-        'locataire': locataire_obj
+        'locataire': locataire_obj,
+        'contrats': contrat
     })
 
 @login_required
 def historique_view(request):
     locataire_obj, _ = Locataire.objects.get_or_create(user=request.user)
+    history = Baux.objects.filter(locataire__user=request.user)
     return render(request, 'locataire/history.html', {
-        'locataire': locataire_obj
+        'locataire': locataire_obj,
+        'baux':history
     })
 
 @login_required
 def maintenance_view(request):
     locataire_obj, _ = Locataire.objects.get_or_create(user=request.user)
     proprietes_locataire = Propriete.objects.filter(Baux__locataire=locataire_obj).distinct()
-    
+    maintenances = Maintenance.objects.filter(locataire__user=request.user)
     if request.method == 'POST':
         form = demandeMaintenanceForm(request.POST)
         form.fields['propriete'].queryset = proprietes_locataire
@@ -117,7 +121,8 @@ def maintenance_view(request):
     locataire_obj, _ = Locataire.objects.get_or_create(user=request.user)
     return render(request, 'locataire/maintenance.html', {
         'locataire': locataire_obj,
-        'form': form
+        'form': form,
+        'maintenances': maintenances
     })
 
 def imprimerBaux(request, bail_id):
@@ -125,6 +130,29 @@ def imprimerBaux(request, bail_id):
     return render(request, 'home/locatairebaux.html', {
         'bail': bail
     })
+
+
+def demandelocationView(request,contrat_id):
+    contrat = get_object_or_404(Contrat,id=contrat_id)
+    if request.method == 'POST':
+        form=demandeLocationForm()
+        if form.is_valid():
+            form.save(commit=False)
+            form.propriete=contrat.propriete
+            form.dateDemande=timezone.now().date()
+            form.locataire=Locataire.objects.get(user=request.user)
+            form.save()
+            messages.success(request, "Demande de location soumise avec succès.")
+            return redirect('homeLocataire')
+    else:
+        form=demandeLocationForm()
+
+    return render(request,'locataire/demandeLocation.html',{
+        'form':form,
+        'appartement':contrat
+        })
+    
+
 
 class proprieteListView(ListView):
     model = Contrat

@@ -140,12 +140,15 @@
             <!-- Apartment 1 -->
             
             {% for appartement in contrats %}
+            <form action="{% url 'demandelocation' appartement.id %}" method="post">
+                {% csrf_token %}
+            
             <div class="card apartment-card">
                 <div class="apartment-img-wrapper">
                     {% if appartement.image %}
                         <img src="{{ appartement.image.url }}" alt="{{ appartement.titre }}" class="apartment-img">
                     {% endif %}
-        </div>
+                </div>
                 <div class="apartment-content">
                     <div class="apartment-price">{{ appartement.prix }} DHS<span style="font-size: 0.875rem; color: var(--text-secondary); font-weight: normal;">/ mois</span></div>
                     <h3 class="apartment-title"> {{appartement.propriete.nom}} </h3>
@@ -162,9 +165,10 @@
                         
                     </div>
                     
-                    <button class="btn btn-primary btn-rent" onclick="alert('Demande de location envoyée !')">Demander à louer</button>
+                    <button class="btn btn-primary btn-rent" type="submit">Demander à louer</button>
                 </div>
             </div>
+            </form>
             {% endfor %}
         </div>
     </main>
