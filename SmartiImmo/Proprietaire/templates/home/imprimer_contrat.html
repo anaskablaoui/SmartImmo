@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contrat - {{ propriete.nom }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 40px; }
+        h1 { text-align: center; }
+        .info { margin: 20px 0; }
+        @media print {
+            .no-print { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <h1>Contrat de Location</h1>
+
+    
+
+    {% if contrat %}
+    <div class="info">
+        <p><strong>Propriété :</strong> {{ contrat.propriete.nom }}</p>
+        <p><strong>Ville :</strong> {{ contrat.propriete.ville }}</p>
+        <p><strong>Adresse :</strong> {{ contrat.propriete.adresse }}</p>
+        
+    </div>
+    <div class="info">
+        <p><strong>Locataire :</strong> {{ contrat.agent }}</p>
+        <p><strong>Date début :</strong> {{ contrat.date_contrat }}</p>
+        <p><strong>Date fin :</strong> {{ contrat.date_finContrat }}</p>
+        <p><strong>Loyer minimal:</strong> {{ contrat.prix }} DHS</p>
+        <p><strong>Pourcentage de gain :</strong> {{contrat.pourcentage}} </p>
+    </div>
+    <button class="no-print" onclick="window.print()">🖨️ Imprimer</button>
+    {% else %}
+        <p>Aucun contrat associé à cette propriété.</p>
+    {% endif %}
+
+    
+</body>
+</html>

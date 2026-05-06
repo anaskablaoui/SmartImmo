@@ -79,7 +79,11 @@ class ajoutProprieteForm(forms.ModelForm):
     etat = forms.CharField(widget=forms.TextInput(attrs={
         'class':'input',
         'placeholder':'Ville'}))
-    
+    metrage=forms.DecimalField(widget=forms.NumberInput(attrs={
+        'class':'input',
+        'placeholder':'Metrage'
+    }))
+
     class Meta:
         model = Propriete
-        fields = ['ville','adresse','image','etat']
+        fields = ['ville','adresse','image','etat','metrage']

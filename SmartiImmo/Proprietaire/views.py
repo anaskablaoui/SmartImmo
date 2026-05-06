@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -6,7 +6,7 @@ from django.views.generic import ListView,DetailView
 from accounts.models import CustomUser
 from .forms import RegisterForm, LoginForm,ajoutProprieteForm
 from .models import Proprietaire,Propriete
-from Agents.models import Baux,Offre
+from Agents.models import Baux,Offre,Contrat
 from Locataire.models import Maintenance
 
 
@@ -103,6 +103,29 @@ def homeView(request):
         'proprietes': proprietes,
         'ajoutPropriete': form,
     })
+
+def imprimer_contrat(request, propriete_id):
+    propriete = get_object_or_404(Propriete, id=propriete_id)
+    contrat = Contrat.objects.filter(propriete=propriete).first()
+    return render(request, 'home/imprimer_contrat.html', {
+        'propriete': propriete,
+        'contrat': contrat
+    })
+
+def imprimer_baux(request, bail_id):
+    bail = get_object_or_404(Baux, id=bail_id)
+    return render(request, 'home/imprimer_baux.html', {
+        'bail': bail
+    })
+
+class ContratDetailView(DetailView):
+    model = Contrat
+    template_name = 'home/imprimer_contrat.html'
+    context_object_name = 'contrat'
+
+    def get_queryset(self):
+        return Contrat.objects.filter(propriete__proprietaire__user=self.request.user)
+    
 class ProprieteListView(ListView):
     model = Proprietaire
     template_name = 'home/index.html'
