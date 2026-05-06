@@ -92,34 +92,13 @@
             <!-- Left Column: New Request Form -->
             <div class="request-form-card">
                 <h3 style="margin-bottom: 1.5rem;">Nouvelle Demande</h3>
-                <form id="maintenanceForm">
+                <form id="maintenanceForm" method="post">
+                    {% csrf_token %}
                     <div class="form-group">
-                        <label for="subject" class="form-label">Sujet</label>
-                        <select id="subject" class="form-select" required>
-                            <option value="">Sélectionnez un sujet</option>
-                            <option value="plombier">Problème de plomberie</option>
-                            <option value="electricite">Problème d'électricité</option>
-                            <option value="chauffage">Chauffage / Climatisation</option>
-                            <option value="electromenager">Électroménager défectueux</option>
-                            <option value="autre">Autre</option>
-                        </select>
+                        {{ form.as_p }}
                     </div>
 
-                    <div class="form-group">
-                        <label for="priority" class="form-label">Urgence</label>
-                        <select id="priority" class="form-select" required>
-                            <option value="basse">Basse (Peut attendre quelques jours)</option>
-                            <option value="normale" selected>Normale</option>
-                            <option value="haute">Haute (Intervention rapide requise)</option>
-                            <option value="urgente">Urgente (Fuite d'eau, panne de courant...)</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="description" class="form-label">Description du problème</label>
-                        <textarea id="description" class="form-textarea" placeholder="Décrivez le problème en détail pour faciliter l'intervention du technicien..." required></textarea>
-                    </div>
-
+                    
                     <button type="submit" class="btn btn-primary" style="width: 100%;">Envoyer la demande</button>
                 </form>
             </div>

@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.views.generic import ListView
 from accounts.models import CustomUser
-from .forms import RegisterForm, LoginForm
+from .forms import RegisterForm, LoginForm,demandeMaintenanceForm
 from .models import Locataire,Maintenance
 from Agents.models import Contrat,Baux
 
@@ -95,9 +95,21 @@ def historique_view(request):
 
 @login_required
 def maintenance_view(request):
+    if request.method == 'POST':
+        form = demandeMaintenanceForm(request.POST)
+        if form.is_valid():
+            maintenance = form.save(commit=False)
+            maintenance.locataire = Locataire.objects.get(user=request.user)
+            maintenance.save()
+            messages.success(request, "Demande de maintenance soumise avec succès.")
+            return redirect('maintenanceLoc')
+    else:                                  
+        form = demandeMaintenanceForm()
+
     locataire_obj, _ = Locataire.objects.get_or_create(user=request.user)
     return render(request, 'locataire/maintenance.html', {
-        'locataire': locataire_obj
+        'locataire': locataire_obj,
+        'form': form
     })
 
 class proprieteListView(ListView):

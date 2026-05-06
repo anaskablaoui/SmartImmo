@@ -1,6 +1,6 @@
 from django import forms
 from accounts.models import CustomUser
-from .models import Locataire
+from .models import Locataire,Maintenance
 
 
 class RegisterForm(forms.Form):
@@ -65,3 +65,19 @@ class LoginForm(forms.Form):
         'class': 'input',
         'placeholder': 'Entrer mot de passe'
     }))
+
+
+class demandeMaintenanceForm(forms.ModelForm):
+    titre = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-input',
+        'placeholder': 'Titre de la maintenance'
+    }))
+    description = forms.CharField(widget=forms.Textarea(attrs={
+        'class': 'form-input',
+        'placeholder': 'Décrire le problème',
+        'rows': 4
+    }))
+
+    class Meta:
+        model = Maintenance
+        fields = ['titre', 'description']
