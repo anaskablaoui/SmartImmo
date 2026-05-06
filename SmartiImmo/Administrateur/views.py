@@ -42,11 +42,21 @@ def homeView(request):
         form = AjoutAgentForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('liste_agents')
+            return redirect('adminDashboard')
     else:
         form = AjoutAgentForm()
-    return render(request, 'adminDashboard/index.html', {'form': form})
+    
+    agents     = Agents.objects.all()      # ← tous les agents
+    proprietes = Propriete.objects.all()   # ← toutes les proprietes
+    baux       = Baux.objects.all()        # ← tous les baux
 
+    return render(request, 'adminDashboard/index.html', {
+        'form'      : form,
+        'agents'    : agents,
+        'proprietes': proprietes,
+        'baux'      : baux,
+    })
+    
 class agentListView(ListView):
     model = Agents
     template_name = 'adminDashboard/index.html'
