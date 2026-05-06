@@ -1,12 +1,14 @@
+from time import timezone
+
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-
+from django.views.generic import ListView
 from accounts.models import CustomUser
 from .forms import RegisterForm, LoginForm
-from .models import Locataire
-
+from .models import Locataire,Maintenance
+from Agents.models import Contrat,Baux
 
 def auth_view(request):
     login_form    = LoginForm()
@@ -97,3 +99,29 @@ def maintenance_view(request):
     return render(request, 'locataire/maintenance.html', {
         'locataire': locataire_obj
     })
+
+class proprieteListView(ListView):
+    model = Contrat
+    template_name = 'locataire/index.html'
+    context_object_name = 'contrats'
+
+class historiqueListView(ListView):
+    model = Baux
+    template_name = 'locataire/history.html'
+    context_object_name = 'baux'
+
+    def get_queryset(self):
+        return Baux.objects.filter(locataire__user=self.request.user)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['today'] = timezone.now().date()
+        return context
+    
+class MaintenanceListView(ListView):
+    model = Maintenance
+    template_name = 'locataire/maintenance.html'
+    context_object_name = 'maintenances'
+
+    def get_queryset(self):
+        return Maintenance.objects.filter(locataire__user=self.request.user)

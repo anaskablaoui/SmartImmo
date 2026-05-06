@@ -16,6 +16,7 @@ class Locataire(models.Model):
         return f"{self.user.nom} {self.user.prenom}"
     
 class Maintenance(models.Model):
+    titre=models.CharField(max_length=100)
     propriete=models.ForeignKey(Propriete,on_delete=models.CASCADE,related_name='Maintenance')
     description = models.CharField(max_length=250,null=False)
     locataire=models.ForeignKey(Locataire,on_delete=models.CASCADE,null=False)
