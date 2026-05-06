@@ -1,0 +1,132 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{%static 'styles/home.css'%}">
+    <script defer src="{% static 'js/script.js' %}"></script>
+</head>
+<body>
+    <aside class="sidebar">
+        <h2>Bonjour MOnsieur</h2>
+        <ul>
+            <li><a href="#" class="nav_link" data-target="dashboard">Dashboard</a></li>
+            <li><a href="#" class="nav_link" data-target="agent">Agent</a></li>
+            <li><a href="#" class="nav_link" data-target="proprietes">Proprietes</a></li>
+            <li><a href="#" class="nav_link" data-target="baux">Baux</a></li>
+        </ul>
+        <form action="{% url 'adminLogout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
+    </aside>
+    <main>
+        <!--partie dashboard-->
+        <article id="dashboard" class="panel active">
+            <div class="dashboard-content">
+                <div class="info">
+
+                </div>
+
+                <div class="stats">
+
+                </div>
+                <div class="Historique">
+
+                </div>
+            </div>
+        </article >
+        <!--Agent-->
+        <article id="agent" class="panel">
+            
+            <div class="ajoutagent">
+                    
+                    <form method="POST" action="{% url 'home' %}" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{form.as_p}}
+                        <button type="submit" class="btn">Confirmer</button>
+                    </form>
+
+            </div>
+            <div class="data">
+                <div class="recherch">
+
+                </div>
+                <div class="tableagent">
+                    <table>
+                        <tr>
+                            <th>matricule</th>
+                            <th>nom</th>
+                            <th>prenom</th>
+                            <th>email</th>
+                            <th>telephone</th>
+                        </tr>
+                        {% for agent in agents %}
+                        <tr>
+                            <td>{{agent.matricule}}</td>
+                            <td>{{agent.nom}}</td>
+                            <td>{{agent.prenom}}</td>
+                            <td>{{agent.email}}</td>
+                            <td>{{agent.telephone}}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </article>
+        <!--Proprietes-->
+        <article id="proprietes" class="panel"> 
+            
+            <div class="recherch">
+
+            </div>
+            <div class="tableproprietes">
+                <table>
+                    <tr>
+                        <th>adresse</th>
+                        <th>ville</th>
+                        <th>image</th>
+                        <th>etat</th>
+                    </tr>
+                    {% for propriete in proprietes %}
+                         <tr>
+                              <td>{{propriete.adresse}}</td>
+                              <td>{{propriete.ville}}</td>
+                              <td><img src="{{ propriete.image.url }}" alt="Image de la propriété" width="100"></td>
+                              <td>{{propriete.etat}}</td>
+                         </tr>
+                        {% endfor %}
+                </table>
+            </div>
+        </article>
+        <!--Baux-->
+        <article id="baux" class="panel">    
+        
+            <div class="recherch">
+
+            </div>
+            <div class="tableBaux">
+                <table>
+                    <tr>
+                        <th>Locataire</th>
+                        <th>Propriete</th>
+                        <th>Date_Debut</th>
+                        <th>Date_Fin</th>
+                        <th>prix</th>
+                    </tr>
+                    {% for bail in baux %}
+                         <tr>
+                              <td>{{bail.locataire}}</td>
+                              <td>{{bail.propriete}}</td>
+                              <td>{{bail.date_debut}}</td>
+                              <td>{{bail.date_fin}}</td>
+                              <td>{{bail.prix}}</td>
+                         </tr>
+                        {% endfor %}
+                </table>
+            </div>
+    </main>
+</body>
+</html>

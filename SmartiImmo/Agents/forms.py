@@ -69,7 +69,7 @@ class loginForm(forms.ModelForm):
 class bauxForm(forms.ModelForm):
     locataire=forms.CharField(widget=forms.TextInput(attrs={
         'class':'input',
-        'placeholder':'Nom du locataire'
+        'placeholder':'Nom du locataire',
         'placeholder':'Prénom du locataire'
     }))
     propriete=forms.CharField(widget=forms.TextInput(attrs={

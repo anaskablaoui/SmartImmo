@@ -6,7 +6,7 @@ from django.views.generic import ListView,DetailView
 from accounts.models import CustomUser
 from .forms import RegisterForm, LoginForm,ajoutProprieteForm
 from .models import Proprietaire,Propriete
-from Agents.models import Baux
+from Agents.models import Baux,Offre
 from Locataire.models import Maintenance
 
 
@@ -133,3 +133,11 @@ class MessageListeView(ListView):
     def get_queryset(self):
         return Maintenance.objects.filter(propriete__proprietaire__user=self.request.user)
     
+
+class OffreListView(ListView):
+    model = Offre
+    template_name = 'home/index.html'
+    context_object_name = 'offres'
+
+    def get_queryset(self):
+        return Offre.objects.filter(propriete__proprietaire__user=self.request.user)

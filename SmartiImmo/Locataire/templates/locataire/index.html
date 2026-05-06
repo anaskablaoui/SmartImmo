@@ -1,117 +1,233 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartImmo - Connexion Locataire</title>
-    <link rel="stylesheet" href="styles/main.css">
+    <title>SmartImmo - Appartements Disponibles</title>
+    <link rel="stylesheet" href=" {% static "styles/main.css" %} ">
     <style>
-        .login-page {
-            min-height: 100vh;
+        .apartment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .apartment-card {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(rgba(15, 76, 58, 0.8), rgba(9, 46, 35, 0.9)), url('assets/login_bg.png') center/cover no-repeat;
-            padding: 1rem;
+            flex-direction: column;
+            height: 100%;
         }
 
-        .login-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 3rem;
-            border-radius: var(--radius-lg);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        .apartment-img-wrapper {
+            position: relative;
+            height: 240px;
+            overflow: hidden;
+        }
+
+        .apartment-img {
             width: 100%;
-            max-width: 450px;
-            text-align: center;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
         }
 
-        .login-header {
-            margin-bottom: 2.5rem;
+        .apartment-card:hover .apartment-img {
+            transform: scale(1.05);
         }
 
-        .login-logo {
-            font-size: 2rem;
+        .apartment-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--primary-color);
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            font-size: 0.875rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .apartment-content {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .apartment-price {
+            font-size: 1.5rem;
             font-weight: 700;
             color: var(--primary-color);
             margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
         }
 
-        .login-logo svg {
-            width: 32px;
-            height: 32px;
+        .apartment-title {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
         }
 
-        .login-subtitle {
+        .apartment-location {
             color: var(--text-secondary);
-            font-size: 0.95rem;
-        }
-
-        .login-form {
-            text-align: left;
-        }
-
-        .form-options {
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            gap: 0.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .apartment-features {
+            display: flex;
+            gap: 1rem;
             margin-bottom: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
             font-size: 0.875rem;
         }
 
-        .forgot-password {
-            color: var(--primary-color);
-            font-weight: 500;
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
         }
 
-        .btn-login {
+        .btn-rent {
             width: 100%;
-            padding: 1rem;
-            font-size: 1.1rem;
+            margin-top: auto;
         }
     </style>
 </head>
 <body>
 
-    <div class="login-page">
-        <div class="login-card">
-            <div class="login-header">
-                <div class="login-logo">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                    </svg>
-                    SmartImmo
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container navbar-container">
+            <a href=" {% url 'homeLocataire' %} " class="navbar-logo">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                SmartImmo
+            </a>
+            <div class="navbar-links">
+                <a href=" {% url 'homeLocataire' %} " class="nav-link active">Appartements</a>
+                <a href=" {% url 'historyLoc' %} " class="nav-link">Historique</a>
+                <a href=" {% url 'maintenanceLoc' %} " class="nav-link">Maintenance</a>
+                <form action=" {% url 'logoutLoc' %} " method="post"  >{% csrf_token %} <button type="submit" class="btn btn-outline" style="padding: 0.5rem 1rem;">LOGOUT</button></form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container py-12">
+        <div class="page-header flex justify-between items-center">
+            <div>
+                <h1 class="page-title">Trouvez votre prochain foyer</h1>
+                <p class="page-subtitle">Découvrez notre sélection d'appartements premium disponibles à la location.</p>
+            </div>
+            
+            <div class="filters flex gap-4">
+                <select class="form-select" style="width: 200px;">
+                    <option value="">Trier par prix</option>
+                    <option value="asc">Prix croissant</option>
+                    <option value="desc">Prix décroissant</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="apartment-grid">
+            <!-- Apartment 1 -->
+            <div class="card apartment-card">
+                <div class="apartment-img-wrapper">
+                    <img src="assets/apartment.png" alt="Appartement Luxe" class="apartment-img">
+                    <span class="apartment-badge">Nouveau</span>
                 </div>
-                <p class="login-subtitle">Espace Locataire</p>
+                <div class="apartment-content">
+                    <div class="apartment-price">1 250 € <span style="font-size: 0.875rem; color: var(--text-secondary); font-weight: normal;">/ mois</span></div>
+                    <h3 class="apartment-title">Appartement Lumineux T3</h3>
+                    <div class="apartment-location">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                        Centre-ville, Paris
+                    </div>
+                    
+                    <div class="apartment-features">
+                        <div class="feature">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                            75 m²
+                        </div>
+                        <div class="feature">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+                            3 Pièces
+                        </div>
+                        <div class="feature">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                            Immédiat
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-primary btn-rent" onclick="alert('Demande de location envoyée !')">Demander à louer</button>
+                </div>
             </div>
 
-            <form id="loginForm" class="login-form">
-                <div class="form-group">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" id="email" class="form-input" placeholder="votre@email.com" required>
+            <!-- Apartment 2 -->
+            <div class="card apartment-card">
+                <div class="apartment-img-wrapper">
+                    <img src="assets/apartment.png" alt="Appartement Moderne" class="apartment-img" style="filter: hue-rotate(15deg);">
                 </div>
-
-                <div class="form-group">
-                    <label for="password" class="form-label">Mot de passe</label>
-                    <input type="password" id="password" class="form-input" placeholder="••••••••" required>
+                <div class="apartment-content">
+                    <div class="apartment-price">980 € <span style="font-size: 0.875rem; color: var(--text-secondary); font-weight: normal;">/ mois</span></div>
+                    <h3 class="apartment-title">Studio Moderne & Meublé</h3>
+                    <div class="apartment-location">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                        Quartier Latin, Paris
+                    </div>
+                    
+                    <div class="apartment-features">
+                        <div class="feature">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                            35 m²
+                        </div>
+                        <div class="feature">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+                            1 Pièce
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-primary btn-rent" onclick="alert('Demande de location envoyée !')">Demander à louer</button>
                 </div>
+            </div>
 
-                <div class="form-options">
-                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-                        <input type="checkbox"> Se souvenir de moi
-                    </label>
-                    <a href="#" class="forgot-password">Mot de passe oublié ?</a>
+            <!-- Apartment 3 -->
+            <div class="card apartment-card">
+                <div class="apartment-img-wrapper">
+                    <img src="assets/apartment.png" alt="Duplex Premium" class="apartment-img" style="filter: saturate(1.2);">
+                    <span class="apartment-badge">Premium</span>
                 </div>
-
-                <button type="submit" class="btn btn-primary btn-login">Se Connecter</button>
-            </form>
+                <div class="apartment-content">
+                    <div class="apartment-price">2 400 € <span style="font-size: 0.875rem; color: var(--text-secondary); font-weight: normal;">/ mois</span></div>
+                    <h3 class="apartment-title">Magnifique Duplex avec Terrasse</h3>
+                    <div class="apartment-location">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                        Montmartre, Paris
+                    </div>
+                    
+                    <div class="apartment-features">
+                        <div class="feature">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                            120 m²
+                        </div>
+                        <div class="feature">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+                            5 Pièces
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-primary btn-rent" onclick="alert('Demande de location envoyée !')">Demander à louer</button>
+                </div>
+            </div>
         </div>
-    </div>
+    </main>
 
     <script src="js/app.js"></script>
 </body>

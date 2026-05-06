@@ -4,6 +4,12 @@ from django.contrib.auth.decorators import login_required
 from django.views import View
 from .forms import adminLoginForm
 from django.contrib import messages
+from django.views.generic import ListView,DetailView
+from .forms import AjoutAgentForm
+from Agents.models import Agents,Baux
+from Proprietaire.models import Propriete
+
+
 # Create your views here.
 
 class LoginView(View):
@@ -14,9 +20,9 @@ class LoginView(View):
     def post(self,request):
         form=adminLoginForm(request.POST)
         if form.is_valid():
-            matricule=form.cleaned_data['matricule']
+            email = form.cleaned_data['email']
             password = form.cleaned_data['password']
-            user = authenticate(request,matricule=matricule,password=password)
+            user = authenticate(request,email=email,password=password)
             if user is not None:
                 login(request,user)
                 return redirect('adminDashboard')
@@ -30,7 +36,38 @@ def logoutView(request):
         return redirect('adminLogin')
     return redirect('adminDashboard')
 
-@login_required
+@login_required(login_url='/administrateur/')
 def homeView(request):
-    return render(request,'adminDashboard/index.html')
+    if request.method == 'POST':
+        form = AjoutAgentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('liste_agents')
+    else:
+        form = AjoutAgentForm()
+    return render(request, 'adminDashboard/index.html', {'form': form})
 
+class agentListView(ListView):
+    model = Agents
+    template_name = 'adminDashboard/index.html'
+    context_object_name = 'agents'
+     
+class agentDetailView(DetailView):
+    model = Agents
+    template_name = 'adminDashboard/index.html'
+    context_object_name = 'agent'
+
+class proprieteListView(ListView):
+    model = Propriete
+    template_name = 'adminDashboard/index.html'
+    context_object_name = 'proprietes'
+
+class bauxListView(ListView):
+    model = Baux
+    template_name = 'adminDashboard/index.html'
+    context_object_name = 'baux'
+
+class bauxDetailView(DetailView):
+    model = Baux
+    template_name = 'adminDashboard/index.html'
+    context_object_name = 'baux'

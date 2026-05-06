@@ -83,3 +83,17 @@ def home_View(request):
     return render(request, 'locataire/index.html', {
         'locataire': locataire_obj
     })
+
+@login_required
+def historique_view(request):
+    locataire_obj, _ = Locataire.objects.get_or_create(user=request.user)
+    return render(request, 'locataire/history.html', {
+        'locataire': locataire_obj
+    })
+
+@login_required
+def maintenance_view(request):
+    locataire_obj, _ = Locataire.objects.get_or_create(user=request.user)
+    return render(request, 'locataire/maintenance.html', {
+        'locataire': locataire_obj
+    })

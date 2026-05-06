@@ -14,11 +14,12 @@
             <li><a href="#" class="nav_link">Dashboard</a></li>
             <li><a href="#" class="nav_link">Baux</a></li>
             <li><a href="#" class="nav_link">Contrats</a></li>
+            
             <li><a href="#" class="nav_link">Offres de location</a></li>
             <li><a href="#" class="nav_link">Maintenances</a></li>
 
         </ul>
-        <form action="{% url 'logout' %}" method="post">
+        <form action="{% url 'agentLogout' %}" method="post">
             {% csrf_token %}
             <button type="submit">Logout</button>
         </form>
@@ -49,7 +50,6 @@
             <div class="tablecontrat">
                 <table>
                     <tr>
-                        <th>agent</th>
                         <th>Propriete</th>
                         <th>pourcentage</th>
                         <th>prix_min</th>
@@ -57,9 +57,8 @@
                         <th>Date_FinContrat</th>
                     </tr>
                     
-                    {% for contract in Contrats %}
+                    {% for contract in contrats %}
                         <tr>
-                            <td>{{ contract.agent.nom }} {{ contract.agent.prenom }}</td>
                             <td>{{ contract.propriete.adresse }}</td>
                             <td>{{ contract.pourcentage }}</td>
                             <td>{{ contract.prix_min }}</td>
@@ -69,6 +68,8 @@
                     {% endfor %}
                         
                 </table>
+            </div>
+        </article>
         <!-- Baux -->
         <article id="baux" class="panel">
             
@@ -98,17 +99,39 @@
                 </table>
             </div>
         </article>
-        <!--Historiques-->
-        <article id="historiques" class="pannel">
-
-        </article>
+        
         <!--offres de location-->
-        <article id="offres" class="pannel">
-
+        <article id="offres" class="panel">
+            {% for offre in demandes %}
+            <div class="card">
+                <p><strong>Propriété:</strong> {{ offre.propriete.adresse }}</p>
+                <p><strong>Description:</strong> {{ offre.description }}</p>
+                <p><strong>Locataire:</strong> {{ offre.locataire.nom }} {{ offre.locataire.prenom }}</p>
+                <p><strong>Date:</strong> {{ offre.dateDemande }}</p>
+            </div>
+            {% endfor %}
         </article>
          
         <!--Maintenances-->
-        <article id="maintenances" class="pannel">
+        <article id="maintenances" class="panel">
+            {% for maintenance in maintenances %}
+            <div class="card">
+                <p><strong>Propriété:</strong> {{ maintenance.propriete.adresse }}</p>
+                <p><strong>Description:</strong> {{ maintenance.description }}</p>
+                <p><strong>Locataire:</strong> {{ maintenance.locataire.nom }} {{ maintenance.locataire.prenom }}</p>
+                <p><strong>Date:</strong> {{ maintenance.date }}</p>
+            </div>
+            {% endfor %}
+        </article>
+        <article id="offreContrat" class="panel">
+             {% for offre in proprietes %}
+            <div class="card">
+                <p><strong>Propriété:</strong> {{ offre.propriete.adresse }}</p>
+                <p><strong>Description:</strong> {{ offre.description }}</p>
+                <p><strong>Locataire:</strong> {{ offre.locataire.nom }} {{ offre.locataire.prenom }}</p>
+                <p><strong>Date:</strong> {{ offre.dateDemande }}</p>
+            </div>
+            {% endfor %}
 
         </article>
         
@@ -121,12 +144,11 @@
 
     // Mapping lien → id du panel
     const linkMap = {
-        'Dashboard':                'dashboard',
-        'Propriete':                'propriete',
-        'Baux/historique_location': 'baux',
-        'message':                  'message',
-        'offres de location':       'offres',
-        'Maintenances':             'maintenances',
+        'Dashboard':          'dashboard',
+        'Baux':               'baux',
+        'Contrats':           'contrat',
+        'Offres de location': 'offres',
+        'Maintenances':       'maintenances',
     };
 
     function activatePanel(targetId) {
