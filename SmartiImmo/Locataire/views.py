@@ -1,6 +1,6 @@
 from time import timezone
 
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -118,6 +118,12 @@ def maintenance_view(request):
     return render(request, 'locataire/maintenance.html', {
         'locataire': locataire_obj,
         'form': form
+    })
+
+def imprimerBaux(request, bail_id):
+    bail = get_object_or_404(Baux, id=bail_id)
+    return render(request, 'home/locatairebaux.html', {
+        'bail': bail
     })
 
 class proprieteListView(ListView):

@@ -68,7 +68,9 @@
                             terminé
                         {% endif %}
                              </span></td>
-                        <td><button class="btn btn-outline" style="padding: 0.25rem 0.75rem; font-size: 0.875rem;" onclick="alert('Téléchargement de la quittance de loyer...')">Quittance</button></td>
+                        <td>
+                            <a href=" {% url 'locbaux' bail.id %} " class="btn btn-primary">Détails</a>
+                        </td>
                     </tr>
                    {% endfor %}
                 </tbody>

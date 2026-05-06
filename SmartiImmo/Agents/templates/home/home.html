@@ -55,6 +55,7 @@
                         <th>prix_min</th>
                         <th>Date_Contrat</th>
                         <th>Date_FinContrat</th>
+                        <th>Action</th>
                     </tr>
                     
                     {% for contract in contrats %}
@@ -64,6 +65,7 @@
                             <td>{{ contract.prix_min }}</td>
                             <td>{{ contract.date_contrat }}</td>
                             <td>{{ contract.date_finContrat }}</td>
+                            <td><a href="{% url 'contrat' contract.id %}">Imprimer</a></td>
                         </tr>
                     {% endfor %}
                         
@@ -84,6 +86,7 @@
                         <th>Prix</th>
                         <th>Date Début</th>
                         <th>Date Sortie</th>
+                        <th>Action</th>
                     </tr>
                     
                     {% for bail in Baux %}
@@ -93,6 +96,7 @@
                             <td>{{ bail.prix }}</td>
                             <td>{{ bail.date_debut }}</td>
                             <td>{{ bail.date_sortie }}</td>
+                            <td><a href="{% url 'baux' bail.id %}">Imprimer</a></td>
                         </tr>
                     {% endfor %}
                         

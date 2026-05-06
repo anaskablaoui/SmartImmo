@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -39,6 +39,16 @@ def logoutView(request):
 def homeView(request):
     return render(request,'home/home.html')
     
+def imprimer_baux(request, bail_id):
+    bail = get_object_or_404(Baux, id=bail_id)
+    return render(request, 'home/baux.html', {
+        'bail': bail
+    })
+
+def imprimer_contrat(request, contrat_id):
+    contrat = get_object_or_404(Contrat, id=contrat_id)
+    return render(request, 'home/contrat.html', {
+        'contrat': contrat})
 
 
 class BauxListView(ListView):

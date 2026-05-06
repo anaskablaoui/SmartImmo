@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contrat - {{ propriete.nom }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 40px; }
+        h1 { text-align: center; }
+        .info { margin: 20px 0; }
+        @media print {
+            .no-print { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <h1>Contrat de Location</h1>
+
+    
+
+    {% if bail %}
+    <div class="info">
+        <p><strong>Propriété :</strong> {{ bail.propriete.nom }}</p>
+        <p><strong>Ville :</strong> {{ bail.propriete.ville }}</p>
+        <p><strong>Adresse :</strong> {{ bail.propriete.adresse }}</p>
+        
+    </div>
+    <div class="info">
+        <p><strong>Locataire :</strong> {{ bail.agent }}</p>
+        <p><strong>Proprietaire:</strong> {{bail.proprietaire.nom}} {{bail.proprietaire.prenom}} </p>
+        <p><strong>Date début :</strong> {{ bail.date_debut }}</p>
+        <p><strong>Date fin :</strong> {{ bail.date_sortie }}</p>
+        <p><strong>Loyer minimal:</strong> {{ bail.prix }} DHS</p>
+        
+    </div>
+    <button class="no-print" onclick="window.print()"> Imprimer</button>
+    {% else %}
+        <p>Aucun contrat associé à cette propriété.</p>
+    {% endif %}
+
+    
+</body>
+</html>
