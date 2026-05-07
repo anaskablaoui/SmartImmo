@@ -29,7 +29,7 @@
 body {
     display: flex;
     min-height: 100vh;
-    background: linear-gradient(90deg, #006A59, #e2e2e2);
+    background: linear-gradient(90deg, #006A59, #e2e2e2)    ;
 }
 
 /* ── SIDEBAR ─────────────────────────────────── */
@@ -122,6 +122,24 @@ main {
     overflow-y: auto;
 }
 
+/* ── PAGE HEADER ──────────────────────────────── */
+.page-header {
+    margin-bottom: 24px;
+}
+
+.page-header h1 {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+}
+
+.page-header p {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+
 /* ── PANELS ───────────────────────────────────── */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
@@ -138,17 +156,12 @@ main {
     animation: fadeIn 0.28s ease;
 }
 
-/* ── DASHBOARD ────────────────────────────────── */
-.dashboard-content {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
+/* ── STAT CARDS ───────────────────────────────── */
 .info {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 16px;
+    margin-bottom: 24px;
 }
 
 .stat-card {
@@ -188,12 +201,14 @@ main {
     color: var(--text-muted);
 }
 
+/* ── CHART ZONE ───────────────────────────────── */
 .stats {
     background: var(--bg-card);
     border-radius: var(--radius-lg);
     border: 1px solid var(--border);
     box-shadow: var(--shadow-sm);
     padding: 24px 28px;
+    margin-bottom: 24px;
 }
 
 .stats-title {
@@ -205,94 +220,8 @@ main {
     border-bottom: 1px solid var(--border);
 }
 
-/* ── PROPRIETE PANEL ──────────────────────────── */
-#propriete.panel.active {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.propriete-content {
-    display: flex;
-    gap: 24px;
-    align-items: flex-start;
-    width: 100%;
-}
-
-.ajoutPropriete {
-    width: 300px;
-    min-width: 260px;
-    background: var(--bg-card);
-    border-radius: var(--radius-md);
-    padding: 24px 20px;
-    box-shadow: var(--shadow-sm);
-    border: 1px solid var(--border);
-}
-
-.ajoutPropriete h4 {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--green-main);
-    margin-bottom: 16px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--border);
-}
-
-.ajoutPropriete form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.ajoutPropriete form p {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.ajoutPropriete form p label {
-    font-size: 12px;
-    color: var(--text-muted);
-    font-weight: 500;
-}
-
-.ajoutPropriete form p input,
-.ajoutPropriete form p select,
-.ajoutPropriete form p textarea {
-    width: 100%;
-    padding: 9px 12px;
-    background: #f6faf8;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    font-family: "Poppins", sans-serif;
-    font-size: 13px;
-    color: var(--text-primary);
-    outline: none;
-    transition: border-color 0.18s, background 0.18s;
-}
-
-.ajoutPropriete form p input:focus,
-.ajoutPropriete form p select:focus,
-.ajoutPropriete form p textarea:focus {
-    border-color: var(--green-main);
-    background: #ffffff;
-}
-
-.ajoutPropriete form p textarea {
-    resize: none;
-    height: 80px;
-}
-
-.data {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    min-width: 0;
-}
-
-/* ── TABLES ───────────────────────────────────── */
-.tableBaux {
+/* ── TABLES (shared) ──────────────────────────── */
+.table-wrapper {
     background: var(--bg-card);
     border-radius: var(--radius-lg);
     border: 1px solid var(--border);
@@ -300,16 +229,17 @@ main {
     overflow: hidden;
 }
 
-.tableBaux table {
+.table-wrapper table {
     width: 100%;
     border-collapse: collapse;
+    table-layout: auto;
 }
 
-.tableBaux table thead tr {
+.table-wrapper table thead tr {
     background: var(--green-main);
 }
 
-.tableBaux table th {
+.table-wrapper table th {
     color: rgba(255,255,255,0.92);
     font-size: 11.5px;
     font-weight: 500;
@@ -320,7 +250,7 @@ main {
     white-space: nowrap;
 }
 
-.tableBaux table td {
+.table-wrapper table td {
     font-size: 13.5px;
     padding: 13px 18px;
     border-bottom: 1px solid var(--border);
@@ -328,30 +258,24 @@ main {
     vertical-align: middle;
 }
 
-.tableBaux table tr:last-child td {
+.table-wrapper table tr:last-child td {
     border-bottom: none;
 }
 
-.tableBaux table tbody tr {
+.table-wrapper table tbody tr {
     transition: background 0.15s;
 }
 
-.tableBaux table tbody tr:hover td {
+.table-wrapper table tbody tr:hover td {
     background: var(--green-light);
 }
 
-.tableBaux table td img {
-    width: 60px;
-    height: 45px;
-    object-fit: cover;
-    border-radius: 6px;
-    display: block;
-}
-
-.tableBaux table td a {
+/* Link in table */
+.table-wrapper table td a {
     display: inline-flex;
     align-items: center;
-    color: #ffffff;
+    gap: 4px;
+    color: var(--green-main);
     font-size: 13px;
     font-weight: 500;
     padding: 5px 12px;
@@ -360,10 +284,88 @@ main {
     transition: background 0.15s, color 0.15s;
 }
 
+.table-wrapper table td a:hover {
+    background: var(--green-main);
+    color: #ffffff;
+}
 
+/* Alias old class names to new ones */
+.tableBaux,
+.tablecontrat {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+}
 
+.tableBaux table,
+.tablecontrat table {
+    width: 100%;
+    border-collapse: collapse;
+}
 
-/* ── CARDS (message / offres) ─────────────────── */
+.tableBaux table thead tr,
+.tablecontrat table thead tr {
+    background: var(--green-main);
+}
+
+.tableBaux th,
+.tablecontrat th {
+    color: rgba(255,255,255,0.92);
+    font-size: 11.5px;
+    font-weight: 500;
+    padding: 13px 18px;
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+}
+
+.tableBaux td,
+.tablecontrat td {
+    font-size: 13.5px;
+    padding: 13px 18px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-primary);
+    vertical-align: middle;
+}
+
+.tableBaux tr:last-child td,
+.tablecontrat tr:last-child td {
+    border-bottom: none;
+}
+
+.tableBaux tbody tr,
+.tablecontrat tbody tr {
+    transition: background 0.15s;
+}
+
+.tableBaux tbody tr:hover td,
+.tablecontrat tbody tr:hover td {
+    background: var(--green-light);
+}
+
+.tableBaux td a,
+.tablecontrat td a {
+    display: inline-flex;
+    align-items: center;
+    color: var(--green-main);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 5px 12px;
+    border: 1px solid var(--green-main);
+    border-radius: 6px;
+    transition: background 0.15s, color 0.15s;
+}
+
+.tableBaux td a:hover,
+.tablecontrat td a:hover {
+    background: var(--green-main);
+    color: #ffffff;
+}
+
+/* ── CARDS (offres, maintenances) ─────────────── */
 .cards-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -376,9 +378,6 @@ main {
     border: 1px solid var(--border);
     box-shadow: var(--shadow-sm);
     padding: 20px 22px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
     transition: box-shadow 0.2s, transform 0.2s;
 }
 
@@ -387,37 +386,47 @@ main {
     transform: translateY(-2px);
 }
 
-.card h3 {
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--text-primary);
-}
-
 .card p {
     font-size: 13.5px;
     color: var(--text-primary);
+    margin-bottom: 8px;
     line-height: 1.5;
 }
 
-.card p strong,
-.card p:first-letter {
-    color: var(--text-muted);
+.card p:last-child {
+    margin-bottom: 0;
 }
 
-/* Label style inside cards */
-.card p span.label {
+.card p strong {
+    color: var(--text-muted);
     font-size: 11px;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--text-muted);
     display: block;
     margin-bottom: 2px;
 }
 
+/* Card with form (offres) */
+.card-offer {
+    background: var(--bg-card);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    padding: 20px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transition: box-shadow 0.2s;
+}
+
+.card-offer:hover {
+    box-shadow: var(--shadow);
+}
+
 /* ── BUTTONS ──────────────────────────────────── */
-.btn {
-    display: inline-block;
+.btn,
+button[type="submit"] {
     background: var(--green-main);
     color: #ffffff;
     border: none;
@@ -428,22 +437,102 @@ main {
     font-weight: 500;
     cursor: pointer;
     transition: background 0.18s, transform 0.1s;
-    text-align: center;
 }
 
-.btn:hover {
+.btn:hover,
+button[type="submit"]:hover {
     background: var(--green-dark);
-    color: #ffffff;
 }
 
-.btn:active {
+.btn:active,
+button[type="submit"]:active {
     transform: scale(0.98);
 }
 
-/* ── MESSAGES DJANGO ──────────────────────────── */
+/* ── FORM ELEMENTS ────────────────────────────── */
+form p input,
+form p select,
+form p textarea,
+.input {
+    width: 100%;
+    padding: 10px 14px;
+    background: #f6faf8;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-family: "Poppins", sans-serif;
+    font-size: 13.5px;
+    color: var(--text-primary);
+    outline: none;
+    transition: border-color 0.18s, background 0.18s;
+}
+
+form p input:focus,
+form p select:focus,
+form p textarea:focus,
+.input:focus {
+    border-color: var(--green-main);
+    background: #ffffff;
+}
+
+form p label {
+    display: block;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+    font-weight: 500;
+}
+
+/* ── SEARCH BAR ───────────────────────────────── */
+.recherch {
+    background: var(--bg-card);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 16px;
+    height: 52px;
+    margin-bottom: 16px;
+}
+
+.recherch input[type="text"] {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 0;
+    font-size: 14px;
+    outline: none;
+    color: var(--text-primary);
+}
+
+.recherch button {
+    background: var(--green-main);
+    color: #ffffff;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 8px 18px;
+    font-family: "Poppins", sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background 0.18s;
+}
+
+.recherch button:hover {
+    background: var(--green-dark);
+}
+
+/* ── EMPTY STATE ──────────────────────────────── */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+/* ── MESSAGES (Django) ────────────────────────── */
 .messages {
     margin-bottom: 16px;
-    list-style: none;
 }
 
 .messages li {
@@ -463,4 +552,18 @@ main {
     background: #fdeaea;
     color: #b71c1c;
     border-left: 3px solid #e53935;
+}
+
+/* ── CONTRAT / MESSAGE PANELS ─────────────────── */
+#message,
+#contrat {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+}
+
+#message.active,
+#contrat.active {
+    display: flex;
+    animation: fadeIn 0.28s ease;
 }

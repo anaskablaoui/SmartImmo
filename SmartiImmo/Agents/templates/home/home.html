@@ -5,11 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="{%static 'styles/home.css'%}">
+    <link rel="stylesheet" href="{%static 'styles/agent.css'%}">
 </head>
 <body>
     <aside class="sidebar">
-        <h2>Bonjour MOnsieur</h2>
+        <h2>Bonjour {{agent.user.nom}} {{agent.user.prenom}}  </h2>
         <ul>
             <li><a href="#" class="nav_link">Dashboard</a></li>
             <li><a href="#" class="nav_link">Baux</a></li>
@@ -28,36 +28,32 @@
     <main>
         <!--partie dashboard-->
         <article id="dashboard" class="panel active">
-            <div class="dashboard-content">
-                <div class="info">
-
-                </div>
-
-                <div class="stats">
-
-                </div>
-                <div class="Historique">
-
-                </div>
+           <div class="info">
+                <div class="stat-card"> nombre de contrat {{ contrats.count|default:'0' }} </div>
+                    <div class="stat-card"> nombre de baux {{Baux.count|default:'0'}} </div>
             </div>
+            <div class="stats">
+                <div class="stats-title">Revenus mensuels</div>
+                <canvas id="revenusChart"></canvas>
+            </div>       
         </article >
         <!--Contrat-->
         <article id="contrat" class="panel">
             
-            <div class="recherch">
-
-            </div>
+            
             <div class="tablecontrat">
                 <table>
-                    <tr>
-                        <th>Propriete</th>
-                        <th>pourcentage</th>
-                        <th>prix_min</th>
-                        <th>Date_Contrat</th>
-                        <th>Date_FinContrat</th>
-                        <th>Action</th>
-                    </tr>
-                    
+                    <thead>
+                        <tr>
+                            <th>Propriete</th>
+                            <th>pourcentage</th>
+                            <th>prix_min</th>
+                            <th>Date_Contrat</th>
+                            <th>Date_FinContrat</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                     {% for contract in contrats %}
                         <tr>
                             <td>{{ contract.propriete.adresse }}</td>
@@ -68,27 +64,26 @@
                             <td><a href="{% url 'contrat' contract.id %}">Imprimer</a></td>
                         </tr>
                     {% endfor %}
-                        
+                    </tbody>  
                 </table>
             </div>
         </article>
         <!-- Baux -->
         <article id="baux" class="panel">
             
-            <div class="recherch">
-
-            </div>
             <div class="tableBaux">
                 <table>
-                    <tr>
-                        <th>Locataire</th>
-                        <th>Propriete</th>
-                        <th>Prix</th>
-                        <th>Date Début</th>
-                        <th>Date Sortie</th>
-                        <th>Action</th>
-                    </tr>
-                    
+                    <thead>
+                        <tr>
+                            <th>Locataire</th>
+                            <th>Propriete</th>
+                            <th>Prix</th>
+                            <th>Date Début</th>
+                            <th>Date Sortie</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                     {% for bail in Baux %}
                         <tr>
                             <td>{{ bail.locataire.nom }} {{ bail.locataire.prenom }}</td>
@@ -99,17 +94,18 @@
                             <td><a href="{% url 'baux' bail.id %}">Imprimer</a></td>
                         </tr>
                     {% endfor %}
-                        
+                     </tbody>      
                 </table>
             </div>
         </article>
         
         <!--offres de location-->
         <article id="offres" class="panel">
-            
+            <div class="cards-grid">
             {% for offre in demandes %}
                 <form action=" {% url 'agentDashboardAccepter' offre.id  %} " method="post">
                     {% csrf_token %}
+                    
                     <div class="card">
                         <p><strong>Propriété:</strong> {{ offre.propriete.adresse }}</p>
                         <p><strong>Description:</strong> {{ offre.description }}</p>
@@ -117,12 +113,15 @@
                         <p><strong>Date:</strong> {{ offre.dateDemande }}</p>
                     </div>
                     <button type="submit">Accepter</button>
+                    
                 </form>
             {% endfor %}
+            </div>
         </article>
          
         <!--Maintenances-->
         <article id="maintenances" class="panel">
+            <div class="cards-grid">
             {% for maintenance in maintenances %}
             <div class="card">
                 <p><strong>Propriété:</strong> {{ maintenance.propriete.adresse }}</p>
@@ -131,10 +130,12 @@
                 <p><strong>Date:</strong> {{ maintenance.date }}</p>
             </div>
             {% endfor %}
+            </div>
         </article>
         <!--offres de contrat-->
         <article id="offreContrat" class="panel">
-             {% for offre in proprietes %}
+            <div class="cards-grid">
+            {% for offre in proprietes %}
              
             <div class="card">
              <form action=" {% url 'agentDashboardContrat' offre.id  %} " method="post">
@@ -149,7 +150,7 @@
             
             
             {% endfor %}
-
+                </div>
         </article>
         
         

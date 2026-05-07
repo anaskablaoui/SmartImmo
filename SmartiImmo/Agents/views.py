@@ -11,6 +11,9 @@ from Locataire.models import Maintenance
 from Proprietaire.models import Propriete
 from Locataire.models import demandeLocation
 from django.utils import timezone
+from django.db.models import Sum
+from django.db.models.functions import TruncMonth
+import json
 # Create your views here.
 class LoginView(View):
     def get(self, request):
@@ -74,14 +77,28 @@ def homeView(request, offre_id=None, propriete_id=None):
                 return redirect('agentDashboard')
             else:
                 print("Erreurs:", offreForm.errors)
+    baux_par_mois = (
+        Baux.objects
+        .filter(agent=request.user.agent)
+        .annotate(mois=TruncMonth('date_debut'))
+        .values('mois')
+        .annotate(total=Sum('prix'))
+        .order_by('mois')
+    )
+
+    chart_labels = [b['mois'].strftime('%B %Y') for b in baux_par_mois]
+    chart_data   = [float(b['total']) * 0.3 for b in baux_par_mois]
 
     return render(request, 'home/home.html', {
+        'agent':       request.user.agent,
         'demandes':     demandeLocation.objects.all(),
         'maintenances': Maintenance.objects.filter(propriete__contrat__agent=request.user.agent).distinct(),
         'contrats':     Contrat.objects.filter(agent=request.user.agent),
         'Baux':         Baux.objects.filter(agent=request.user.agent),
         'proprietes':   Propriete.objects.all(),
         'offreForm':    offreForm,
+        'chart_labels': json.dumps(chart_labels),
+        'chart_data':   json.dumps(chart_data),
     })      
 def imprimer_baux(request, bail_id):
     bail = get_object_or_404(Baux, id=bail_id)

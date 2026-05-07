@@ -28,13 +28,24 @@
         <article id="dashboard" class="panel active">
             <div class="dashboard-content">
                 <div class="info">
-
+                    <div class="stat-card">
+                        <div class="sc-label">Propriete</div>
+                        <div class="sc-value">{{ proprietes.count|default:"0" }}</div>
+                        <div class="sc-hint">enregistrés</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="sc-label">Baux</div>
+                         <div class="sc-value">{{ baux.count|default:"0" }}</div>
+                        <div class="sc-hint">en cours</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="sc-label">Contrat</div>
+                        <div class="sc-value">{{ Contrat.count|default:"0" }}</div>
+                        <div class="sc-hint">enregistrés</div>
+                    </div>
                 </div>
 
                 <div class="stats">
-
-                </div>
-                <div class="Historique">
 
                 </div>
             </div>
@@ -52,11 +63,10 @@
 
                 </div>
                 <div class="data">
-                    <div class="recherch">
-
-                    </div>
+                    
                     <div class="tableBaux">
                         <table>
+                            <thead>
                                 <tr>
                                     <th>Image</th>
                                     <th>ville</th>
@@ -64,6 +74,8 @@
                                     <th>etat</th>
                                     <th>action</th>
                                 </tr>
+                            </thead>
+                            <tbody>
                                 {% for propriete in proprietes %}
                                 <tr>
                                     <td>
@@ -82,7 +94,8 @@
                                         </a>
                                     </td>
                                 {% endfor %}
-                            </th>
+                            </tbody>
+                            
                         </table>
                     </div>
                 </div>
@@ -90,18 +103,20 @@
         </article>
         <!-- partie BAux-->
         <article id="baux" class="panel">
-            <div class="recherch">
-
-            </div>
+            
             <div class="tableBaux">
                 <table>
-                    <tr>
-                        <th>Locataire</th>
-                        <th>Prix</th>
-                        <th>Date_debut</th>
-                        <th>Date_sortie</th>
-                        <th>Action</th>
-                    </tr>
+                    <thead>
+                        <tr>
+                            <th>Locataire</th>
+                            <th>Prix</th>
+                            <th>Date_debut</th>
+                            <th>Date_sortie</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    
 
                     {% for bail in baux %}
                     <tr>
@@ -116,26 +131,35 @@
                         </td>
                     </tr>
                     {% endfor %}
+                    </tbody>
                 </table>
             </div>
         </article>
         <!--message-->
         <article id="message" class="panel">
+            <div class="cards-grid" > 
             {% for maintenance in maintenances %}
+               
                 <div class="card">
                     <P>Date: {{maintenance.date}} </P>
                     <p>prorpeitaire: {{maintenance.propriete}}</p>
                     <p>description: {{maintenance.description}} </p>
                     <p>Locataire: {{maintenance.locataire}} </p>
                 </div>
+            
             {% endfor %}
+            </div>
         </article>
         <!--offre de contrat-->
         <article id="contrat" class="panel">
             
+            <div class="cards-grid" >    
+                
+            
             {% for offre in offres %}
                 <form action="{% url 'accepter_offre' offre.id %}" method="post">
                     {% csrf_token %}
+                    
                     <div class="card">
                         <P>date: {{offre.date_offre}} </P>
                         <h3> {{offre.agent.user.nom}} {{offre.agent.user.prenom}} </h3>
@@ -145,7 +169,7 @@
                     </div>
                 </form>
             {% endfor %}
-                
+             </div>   
         </article>
         
     </main>
