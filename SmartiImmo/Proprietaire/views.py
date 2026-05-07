@@ -4,12 +4,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.views.generic import ListView,DetailView
 from accounts.models import CustomUser
-from .forms import RegisterForm, LoginForm,ajoutProprieteForm
+from .forms import RegisterForm, LoginForm,ajoutProprieteForm,ContratForm
 from .models import Proprietaire,Propriete
 from Agents.models import Baux,Offre,Contrat
 from Locataire.models import Maintenance
-
-
+from django.utils import timezone
+# Create your views here.
 def auth_view(request):
     login_form    = LoginForm()
     register_form = RegisterForm()
@@ -80,11 +80,27 @@ def logoutView(request):
 
 
 @login_required(login_url='/proprietaire/')
-def homeView(request):
+def homeView(request,offre_id=None):
     proprietaire, created = Proprietaire.objects.get_or_create(user=request.user)
     proprietes = Propriete.objects.filter(proprietaire=proprietaire)
-
+    baux=Baux.objects.filter(propriete__proprietaire=proprietaire)
+    message=Maintenance.objects.filter(propriete__proprietaire__user=request.user)
+    offre=Offre.objects.filter(propriete__proprietaire=proprietaire)
+    form = ajoutProprieteForm()
+    accepterForm=ContratForm()
     if request.method == 'POST':
+        if offre_id:
+            offre_instance = get_object_or_404(Offre, id=offre_id)
+            Contrat.objects.create(
+                agent        = offre_instance.agent,
+                propriete    = offre_instance.propriete,
+                prix_min        = offre_instance.prix,
+                pourcentage   = offre_instance.pourcentage,
+                date_contrat  = timezone.now(),
+            )
+            offre_instance.delete()
+            messages.success(request, 'Offre acceptée avec succès.')
+            return redirect('home')
         form = ajoutProprieteForm(request.POST, request.FILES)
         print("POST received")                    # ← check 1
         print(form.is_valid())                    # ← check 2
@@ -102,6 +118,9 @@ def homeView(request):
         'proprietaire': proprietaire,
         'proprietes': proprietes,
         'ajoutPropriete': form,
+        'baux':baux,
+        'maintenances':message,
+        'offres':offre
     })
 
 def imprimer_contrat(request, propriete_id):

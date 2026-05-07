@@ -10,6 +10,7 @@ from django.views.generic import ListView,DetailView
 from Locataire.models import Maintenance
 from Proprietaire.models import Propriete
 from Locataire.models import demandeLocation
+from django.utils import timezone
 # Create your views here.
 class LoginView(View):
     def get(self, request):
@@ -67,8 +68,9 @@ def homeView(request, offre_id=None, propriete_id=None):
                 instance = offreForm.save(commit=False)
                 instance.agent = request.user.agent
                 instance.propriete = get_object_or_404(Propriete, id=propriete_id)
+                instance.date_offre = timezone.now()
                 instance.save()
-                messages.success(request, 'Contrat créé avec succès.')
+                messages.success(request, 'offre est envoye et  créé avec succès.')
                 return redirect('agentDashboard')
             else:
                 print("Erreurs:", offreForm.errors)

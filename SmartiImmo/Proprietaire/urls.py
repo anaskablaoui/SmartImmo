@@ -7,4 +7,5 @@ urlpatterns = [
     path('logout/', logoutView, name='logout'),
     path('imprimer_contrat/<int:propriete_id>/', imprimer_contrat, name='imprimer_contrat'),
     path('imprimer_baux/<int:bail_id>/', imprimer_baux, name='imprimer_baux'),
+    path('accepter_offre/<int:offre_id>/', homeView, name='accepter_offre'),
 ]

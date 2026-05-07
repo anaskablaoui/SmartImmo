@@ -33,20 +33,20 @@ class Baux(models.Model):
         return f"Bail numéro {self.id}"
     
 class Contrat(models.Model):
-    id=models.IntegerField(unique=True,primary_key=True)
+    #id=models.IntegerField(unique=True,primary_key=True)
     agent=models.ForeignKey(Agents,on_delete=models.CASCADE,null=False,related_name='contrat')
     propriete=models.ForeignKey(Propriete,on_delete=models.CASCADE,null=False,related_name='contrat')
     pourcentage=models.DecimalField(max_digits=2,decimal_places=2)
     prix_min=models.DecimalField(max_digits=6,decimal_places=2)
     date_contrat=models.DateField()
-    date_finContrat=models.DateField()
+    date_finContrat=models.DateField(null=True, blank=True)
 
     def __str__(self):
         return f"Contrat numero {self.id}"
     
     
 class Offre(models.Model):
-    id=models.IntegerField(unique=True,primary_key=True)
+    #id=models.IntegerField(unique=True,primary_key=True)
     agent=models.ForeignKey(Agents,on_delete=models.CASCADE,null=False,related_name='offre')
     propriete=models.ForeignKey(Propriete,on_delete=models.CASCADE,null=False,related_name='offre')
     prix=models.DecimalField(max_digits=6,decimal_places=2)

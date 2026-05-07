@@ -1,6 +1,7 @@
 from django import forms
 from accounts.models import CustomUser
 from .models import Proprietaire,Propriete
+from Agents.models import Contrat
 
 
 class RegisterForm(forms.Form):
@@ -87,3 +88,10 @@ class ajoutProprieteForm(forms.ModelForm):
     class Meta:
         model = Propriete
         fields = ['ville','adresse','image','etat','metrage']
+
+class ContratForm(forms.Form):
+    
+
+    class Meta:
+        model = Contrat
+        fields = []
