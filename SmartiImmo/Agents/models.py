@@ -20,7 +20,7 @@ class Agents(models.Model):
     def __str__(self):
         return f"{self.user.nom} {self.user.prenom}"
 class Baux(models.Model):
-    id=models.IntegerField(unique=True,primary_key=True)
+    #id=models.IntegerField(unique=True,primary_key=True)
     locataire=models.ForeignKey(Locataire,on_delete=models.CASCADE,null=False,related_name='Baux')
     agent=models.ForeignKey(Agents,on_delete=models.CASCADE,null=False,related_name='Baux')
     propriete=models.ForeignKey(Propriete,on_delete=models.CASCADE,null=False,related_name='Baux')

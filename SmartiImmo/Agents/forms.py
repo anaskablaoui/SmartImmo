@@ -95,3 +95,10 @@ class bauxForm(forms.ModelForm):
     class Meta:
         model = Baux
         fields = '__all__'
+
+class accepterlocationForm(forms.ModelForm):
+    
+    class Meta:
+        model = Baux
+        fields = []
+        

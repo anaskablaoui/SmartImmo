@@ -26,12 +26,12 @@ class Maintenance(models.Model):
         return f"Maintenance pour {self.propriete} le {self.date}"
 
 class demandeLocation(models.Model):
-    propriete=models.ForeignKey(Propriete,on_delete=models.CASCADE,related_name='demandeLocation')
-    prix=models.FloatField()
-    date_entre=models.DateField()
-    date_sortie=models.DateField()
-    locataire=models.ForeignKey(Locataire,on_delete=models.CASCADE,null=False)
-    dateDemande=models.DateField()
+        propriete=models.ForeignKey(Propriete,on_delete=models.CASCADE,related_name='demandeLocation')
+        prix=models.FloatField()
+        date_entre=models.DateField()
+        date_sortie=models.DateField()
+        locataire=models.ForeignKey(Locataire,on_delete=models.CASCADE,null=False)
+        dateDemande=models.DateField()
 
-    def __str__(self):
-        return f"Demande de location pour {self.propriete} le {self.dateDemande}"
+        def __str__(self):
+            return f"Demande de location pour {self.propriete} le {self.dateDemande}"

@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
-from .forms import loginForm
+from .forms import loginForm,accepterlocationForm
 from .models import Agents,Baux,Contrat
 from django.contrib import messages
 from django.views.generic import ListView,DetailView
@@ -36,8 +36,34 @@ def logoutView(request):
     return redirect('agentDashboard')
 
 @login_required(login_url='/agent/')
-def homeView(request):
-    return render(request,'home/home.html')
+def homeView(request,offre_id=None):
+
+    if request.method == 'POST':
+        demande = get_object_or_404(demandeLocation, id=offre_id)
+        form=accepterlocationForm(request.POST)
+        if form.is_valid():
+            Baux.objects.create(
+            locataire=demande.locataire,
+            agent=request.user.agent,
+            propriete=demande.propriete,
+            proprietaire=demande.propriete.proprietaire,
+            prix=demande.prix,
+            date_debut=demande.date_entre,
+            date_sortie=demande.date_sortie
+        )
+            demande=demandeLocation.objects.get(id=offre_id)
+            demande.delete()
+            
+            messages.success(request, 'Location acceptée avec succès.')
+            return redirect('agentDashboard')
+
+    return render(request,'home/home.html',{
+        'demandes':demandeLocation.objects.all(),
+        'maintenances':Maintenance.objects.filter(propriete__contrat__agent=request.user.agent).distinct(),
+        'contrats':Contrat.objects.filter(agent=request.user.agent),
+        'Baux':Baux.objects.filter(agent=request.user.agent),
+        
+        })
     
 def imprimer_baux(request, bail_id):
     bail = get_object_or_404(Baux, id=bail_id)

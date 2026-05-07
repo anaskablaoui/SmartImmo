@@ -106,13 +106,18 @@
         
         <!--offres de location-->
         <article id="offres" class="panel">
+            
             {% for offre in demandes %}
-            <div class="card">
-                <p><strong>Propriété:</strong> {{ offre.propriete.adresse }}</p>
-                <p><strong>Description:</strong> {{ offre.description }}</p>
-                <p><strong>Locataire:</strong> {{ offre.locataire.nom }} {{ offre.locataire.prenom }}</p>
-                <p><strong>Date:</strong> {{ offre.dateDemande }}</p>
-            </div>
+                <form action=" {% url 'agentDashboardAction' offre.id %} " method="post">
+                    {% csrf_token %}
+                    <div class="card">
+                        <p><strong>Propriété:</strong> {{ offre.propriete.adresse }}</p>
+                        <p><strong>Description:</strong> {{ offre.description }}</p>
+                        <p><strong>Locataire:</strong> {{ offre.locataire.nom }} {{ offre.locataire.prenom }}</p>
+                        <p><strong>Date:</strong> {{ offre.dateDemande }}</p>
+                    </div>
+                    <button type="submit">Accepter</button>
+                </form>
             {% endfor %}
         </article>
          

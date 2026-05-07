@@ -8,4 +8,5 @@ urlpatterns = [
     path("logout/", logoutView, name="agentLogout"),
     path("baux/<int:bail_id>/imprimer/", imprimer_baux, name="baux"),
     path("contrat/<int:contrat_id>/imprimer/", imprimer_contrat, name="contrat"),
+    path('home/<int:offre_id>/', homeView, name='agentDashboardAction'),
 ]
