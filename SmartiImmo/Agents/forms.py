@@ -2,6 +2,7 @@
 from django import forms
 from .models import Agents, Baux
 from accounts.models import CustomUser
+from Agents.models import Offre
 # 1. Formulaire custom pour créer un Agent + son User en même temps
 class AgentCreationForm(forms.ModelForm):
     # Champs du CustomUser à remplir
@@ -102,3 +103,15 @@ class accepterlocationForm(forms.ModelForm):
         model = Baux
         fields = []
         
+class ContratForm(forms.ModelForm):
+    prix=forms.DecimalField(widget=forms.NumberInput(attrs={
+        'class':'input',
+        'placeholder':'Prix du contrat'
+    }))
+    pourcentage=forms.DecimalField(widget=forms.NumberInput(attrs={
+        'class':'input',
+        'placeholder':'Pourcentage du contrat'
+    }))
+    class Meta:
+        model = Offre
+        fields = ['prix','pourcentage']

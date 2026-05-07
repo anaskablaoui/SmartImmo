@@ -14,7 +14,7 @@
             <li><a href="#" class="nav_link">Dashboard</a></li>
             <li><a href="#" class="nav_link">Baux</a></li>
             <li><a href="#" class="nav_link">Contrats</a></li>
-            
+            <li><a href="#" class="nav_link">Offres de contrat</a></li>
             <li><a href="#" class="nav_link">Offres de location</a></li>
             <li><a href="#" class="nav_link">Maintenances</a></li>
 
@@ -108,7 +108,7 @@
         <article id="offres" class="panel">
             
             {% for offre in demandes %}
-                <form action=" {% url 'agentDashboardAction' offre.id %} " method="post">
+                <form action=" {% url 'agentDashboardAccepter' offre.id  %} " method="post">
                     {% csrf_token %}
                     <div class="card">
                         <p><strong>Propriété:</strong> {{ offre.propriete.adresse }}</p>
@@ -132,17 +132,26 @@
             </div>
             {% endfor %}
         </article>
+        <!--offres de contrat-->
         <article id="offreContrat" class="panel">
              {% for offre in proprietes %}
+             
             <div class="card">
-                <p><strong>Propriété:</strong> {{ offre.propriete.adresse }}</p>
-                <p><strong>Description:</strong> {{ offre.description }}</p>
-                <p><strong>Locataire:</strong> {{ offre.locataire.nom }} {{ offre.locataire.prenom }}</p>
-                <p><strong>Date:</strong> {{ offre.dateDemande }}</p>
+             <form action=" {% url 'agentDashboardContrat' offre.id  %} " method="post">
+                    {% csrf_token %}
+                <p><strong>Propriété:</strong> {{ offre.ville }} - {{ offre.adresse }}</p>
+                <p><strong>Description:</strong> {{ offre.metrage}}</p>
+                <p><strong>Proprietaire:</strong> {{ offre.proprietaire.nom }} {{ offre.proprietaire.prenom }}</p>
+                <p><strong>taper votre offre:</strong> {{ offreForm.as_p}}  </p>
+                <button type="submit">Accepter</button>
+                </form>
             </div>
+            
+            
             {% endfor %}
 
         </article>
+        
         
     </main>
 
@@ -157,6 +166,7 @@
         'Baux':               'baux',
         'Contrats':           'contrat',
         'Offres de location': 'offres',
+        "Offres de contrat": 'offreContrat',
         'Maintenances':       'maintenances',
     };
 

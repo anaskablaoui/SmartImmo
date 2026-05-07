@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
-from .forms import loginForm,accepterlocationForm
+from .forms import loginForm,accepterlocationForm,ContratForm
 from .models import Agents,Baux,Contrat
 from django.contrib import messages
 from django.views.generic import ListView,DetailView
@@ -36,35 +36,51 @@ def logoutView(request):
     return redirect('agentDashboard')
 
 @login_required(login_url='/agent/')
-def homeView(request,offre_id=None):
+def homeView(request, offre_id=None, propriete_id=None):
+    offreForm = ContratForm()
 
     if request.method == 'POST':
-        demande = get_object_or_404(demandeLocation, id=offre_id)
-        form=accepterlocationForm(request.POST)
-        if form.is_valid():
+        print("offre_id:", offre_id)
+        print("propriete_id:", propriete_id)
+
+        if offre_id:
+            demande = get_object_or_404(demandeLocation, id=offre_id)
             Baux.objects.create(
-            locataire=demande.locataire,
-            agent=request.user.agent,
-            propriete=demande.propriete,
-            proprietaire=demande.propriete.proprietaire,
-            prix=demande.prix,
-            date_debut=demande.date_entre,
-            date_sortie=demande.date_sortie
-        )
-            demande=demandeLocation.objects.get(id=offre_id)
+                locataire    = demande.locataire,
+                agent        = request.user.agent,
+                propriete    = demande.propriete,
+                proprietaire = demande.propriete.proprietaire,
+                prix         = demande.prix,
+                date_debut   = demande.date_entre,
+                date_sortie  = demande.date_sortie,
+            )
             demande.delete()
-            
             messages.success(request, 'Location acceptée avec succès.')
             return redirect('agentDashboard')
 
-    return render(request,'home/home.html',{
-        'demandes':demandeLocation.objects.all(),
-        'maintenances':Maintenance.objects.filter(propriete__contrat__agent=request.user.agent).distinct(),
-        'contrats':Contrat.objects.filter(agent=request.user.agent),
-        'Baux':Baux.objects.filter(agent=request.user.agent),
-        
-        })
-    
+        elif propriete_id:
+            offreForm = ContratForm(request.POST)
+            if offreForm.is_valid():
+                print("form valid:", offreForm.is_valid())
+                print("form errors:", offreForm.errors)
+                print("POST data:", request.POST)
+                instance = offreForm.save(commit=False)
+                instance.agent = request.user.agent
+                instance.propriete = get_object_or_404(Propriete, id=propriete_id)
+                instance.save()
+                messages.success(request, 'Contrat créé avec succès.')
+                return redirect('agentDashboard')
+            else:
+                print("Erreurs:", offreForm.errors)
+
+    return render(request, 'home/home.html', {
+        'demandes':     demandeLocation.objects.all(),
+        'maintenances': Maintenance.objects.filter(propriete__contrat__agent=request.user.agent).distinct(),
+        'contrats':     Contrat.objects.filter(agent=request.user.agent),
+        'Baux':         Baux.objects.filter(agent=request.user.agent),
+        'proprietes':   Propriete.objects.all(),
+        'offreForm':    offreForm,
+    })      
 def imprimer_baux(request, bail_id):
     bail = get_object_or_404(Baux, id=bail_id)
     return render(request, 'home/baux.html', {

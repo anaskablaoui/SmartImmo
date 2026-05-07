@@ -50,7 +50,7 @@ class Offre(models.Model):
     agent=models.ForeignKey(Agents,on_delete=models.CASCADE,null=False,related_name='offre')
     propriete=models.ForeignKey(Propriete,on_delete=models.CASCADE,null=False,related_name='offre')
     prix=models.DecimalField(max_digits=6,decimal_places=2)
-    pourcentage=models.DecimalField(max_digits=2,decimal_places=2)
+    pourcentage=models.DecimalField(max_digits=5,decimal_places=2)
     date_offre=models.DateField()
 
     def __str__(self):

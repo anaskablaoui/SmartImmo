@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Agents,Baux,Contrat
+from .models import Agents,Baux,Contrat,Offre
 from django.contrib.auth import get_user_model
 from .forms import AgentCreationForm, AgentChangeForm
 # Register your models here.
@@ -33,3 +33,7 @@ class BauxAdmin(admin.ModelAdmin):
 @admin.register(Contrat)
 class ContratAdmin(admin.ModelAdmin):
     list_display = ('agent', 'propriete', 'pourcentage', 'prix_min', 'date_contrat', 'date_finContrat')
+
+@admin.register(Offre)
+class OffreAdmin(admin.ModelAdmin):
+    list_display = ('agent', 'propriete', 'prix', 'pourcentage', 'date_offre')
