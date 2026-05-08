@@ -75,6 +75,7 @@ form {
 .form-box.professeur {
     left: 100%;
     visibility: hidden;
+    overflow: scroll;
 }
 
 /* When active, professeur slides in to right side */

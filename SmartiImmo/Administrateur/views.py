@@ -9,7 +9,8 @@ from .forms import AjoutAgentForm
 from Agents.models import Agents,Baux
 from Proprietaire.models import Propriete
 
-
+from django.db.models import Sum
+from django.db.models.functions import TruncMonth
 # Create your views here.
 
 class LoginView(View):
@@ -46,6 +47,16 @@ def homeView(request):
     else:
         form = AjoutAgentForm()
     
+    baux_par_mois = (
+    Baux.objects
+    .annotate(mois=TruncMonth('date_debut'))
+    .values('mois')
+    .annotate(total_prix=Sum('prix'))
+    .order_by('mois')
+    )
+    
+    labels = [n['mois'].strftime('%B %Y') for n in baux_par_mois]
+    data= [float(n['total_prix'])*0.3 for n in baux_par_mois]
     agents     = Agents.objects.all()      # ← tous les agents
     proprietes = Propriete.objects.all()   # ← toutes les proprietes
     baux       = Baux.objects.all()        # ← tous les baux
@@ -55,6 +66,8 @@ def homeView(request):
         'agents'    : agents,
         'proprietes': proprietes,
         'baux'      : baux,
+        'chart_labels': labels,
+        'chart_data': data,
     })
     
 class agentListView(ListView):

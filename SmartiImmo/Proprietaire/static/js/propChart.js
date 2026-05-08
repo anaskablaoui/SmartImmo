@@ -8,7 +8,7 @@ new Chart(ctx, {
   data: {
     labels: chart_labels,
     datasets: [{
-      label: 'Revenus mensuels (30%)',
+      label: 'Revenus mensuels ',
       data: chart_data,
       backgroundColor: 'rgba(45, 122, 95, 0.6)',
       borderColor: 'rgba(45, 122, 95, 1)',

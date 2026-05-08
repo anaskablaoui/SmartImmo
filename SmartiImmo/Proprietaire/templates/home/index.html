@@ -6,8 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="{%static 'styles/home.css'%}">
+    <script defer src=" {% static 'js/propChart.js' %} "></script>
 </head>
 <body>
+    <!-- Responsive hamburger -->
+    <button class="menu-toggle" id="menuToggle">☰</button>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
     <aside class="sidebar">
         <h2>Bonjour MOnsieur</h2>
         <ul>
@@ -46,7 +51,11 @@
                 </div>
 
                 <div class="stats">
-
+                    <div class="stats-title">Revenus mensuels</div>
+                    <canvas id="revenusChart"></canvas>
+                    {{ chart_labels|json_script:"chart-labels" }}
+                    {{ chart_data|json_script:"chart-data" }}
+                    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
                 </div>
             </div>
         </article >
@@ -219,6 +228,23 @@
     activatePanel('dashboard');
     links[0].classList.add('active');
 });
+    </script>
+    <script>
+    /* Sidebar toggle for mobile */
+    (function() {
+        const btn = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+        const overlay = document.getElementById('sidebarOverlay');
+        if (!btn || !sidebar) return;
+        btn.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('open');
+        });
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('open');
+        });
+    })();
     </script>
 </body>
 </html>

@@ -283,13 +283,158 @@ tr:hover td {
     font-size: 1.1rem;
 }
 
-/* Utilities for responsive */
-@media (max-width: 768px) {
-    .navbar-links {
-        display: none; /* In a real app we'd add a hamburger menu */
+/* ══════════════════════════════════════════════════
+   RESPONSIVE — hamburger toggle for navbar
+   ══════════════════════════════════════════════════ */
+.navbar-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+/* ══════════════════════════════════════════════════
+   RESPONSIVE — ≤ 1024px  (tablets)
+   ══════════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+    .container { padding: 0 1rem; }
+
+    .navbar-container { height: 64px; }
+
+    .navbar-links { gap: 1rem; }
+
+    .page-title { font-size: 1.6rem; }
+
+    .table-container { overflow-x: auto; }
+
+    table th, table td {
+        padding: 0.75rem 1rem;
+        font-size: 0.875rem;
     }
-    
+}
+
+/* ══════════════════════════════════════════════════
+   RESPONSIVE — ≤ 768px  (small tablets / large phones)
+   ══════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+    .navbar-toggle { display: block; }
+
+    .navbar-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--surface-color);
+        flex-direction: column;
+        padding: 1rem 1.5rem;
+        box-shadow: var(--shadow-md);
+        gap: 0.75rem;
+        z-index: 50;
+    }
+
+    .navbar-links.open {
+        display: flex;
+    }
+
+    .navbar-container {
+        position: relative;
+    }
+
+    .navbar-logo svg {
+        width: 22px;
+        height: 22px;
+    }
+
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 1rem;
+    }
+
+    .page-title { font-size: 1.4rem; }
+    .page-subtitle { font-size: 0.95rem; }
+
+    .filters {
+        width: 100%;
+    }
+
+    .filters .form-select {
+        width: 100% !important;
+    }
+
     .grid {
         grid-template-columns: 1fr !important;
+    }
+
+    .card:hover {
+        transform: none;
+    }
+
+    /* Tables horizontal scroll */
+    .table-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    table {
+        min-width: 500px;
+    }
+
+    table th, table td {
+        padding: 0.75rem 0.875rem;
+        font-size: 0.8125rem;
+    }
+
+    .py-12 {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+    }
+
+    .gap-8 { gap: 1.25rem; }
+}
+
+/* ══════════════════════════════════════════════════
+   RESPONSIVE — ≤ 480px  (phones)
+   ══════════════════════════════════════════════════ */
+@media (max-width: 480px) {
+    .container { padding: 0 0.75rem; }
+
+    .navbar-container { height: 56px; }
+    .navbar-logo { font-size: 1.25rem; }
+
+    .page-title { font-size: 1.2rem; }
+    .page-subtitle { font-size: 0.85rem; }
+
+    .py-12 {
+        padding-top: 1.25rem;
+        padding-bottom: 1.25rem;
+    }
+
+    .btn {
+        padding: 0.625rem 1rem;
+        font-size: 0.875rem;
+    }
+
+    .form-input, .form-textarea, .form-select {
+        padding: 0.625rem 0.75rem;
+        font-size: 0.875rem;
+    }
+
+    .card {
+        border-radius: 0.75rem;
+    }
+
+    .badge {
+        font-size: 0.75rem;
+        padding: 0.2rem 0.5rem;
+    }
+
+    table th, table td {
+        padding: 0.625rem 0.75rem;
+        font-size: 0.75rem;
     }
 }

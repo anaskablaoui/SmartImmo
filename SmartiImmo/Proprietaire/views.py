@@ -9,13 +9,15 @@ from .models import Proprietaire,Propriete
 from Agents.models import Baux,Offre,Contrat
 from Locataire.models import Maintenance
 from django.utils import timezone
+from django.db.models import Sum
+from django.db.models.functions import TruncMonth
 # Create your views here.
 def auth_view(request):
     login_form    = LoginForm()
     register_form = RegisterForm()
     error         = None
 
-    # Déjà connecté = redirection directe
+    
     if request.user.is_authenticated:
         return redirect('home')
 
@@ -49,11 +51,10 @@ def auth_view(request):
                     password  = data['password'],
                     nom       = data['nom'],
                     prenom    = data['prenom'],
-                    role      = 'proprietaire',       # rôle fixé automatiquement
+                    role      = 'proprietaire',       
                 )
 
-                # 2. Compléter le profil Proprietaire (signal crée la ligne,
-                #    on met à jour les champs spécifiques)
+                
                 proprietaire, _ = Proprietaire.objects.get_or_create(user=user)
                 proprietaire.cin       = data['cin']
                 proprietaire.telephone = data['telephone']
@@ -102,17 +103,28 @@ def homeView(request,offre_id=None):
             messages.success(request, 'Offre acceptée avec succès.')
             return redirect('home')
         form = ajoutProprieteForm(request.POST, request.FILES)
-        print("POST received")                    # ← check 1
-        print(form.is_valid())                    # ← check 2
-        print(form.errors)                        # ← check 3: shows why invalid
+        print("POST received")                    
+        print(form.is_valid())                    
+        print(form.errors)                        
         if form.is_valid():
             propriete = form.save(commit=False)
             propriete.proprietaire = proprietaire
             propriete.save()
-            print("Saved!")                       # ← check 4
+            print("Saved!")                       
             return redirect('home')
     else:
         form = ajoutProprieteForm()
+
+    baux_par_mois = (
+    Baux.objects.filter(proprietaire=request.user.proprietaire)
+    .annotate(mois=TruncMonth('date_debut'))
+    .values('mois')
+    .annotate(total_prix=Sum('prix'))
+    .order_by('mois')
+    )
+    
+    labels = [n['mois'].strftime('%B %Y') for n in baux_par_mois]
+    data= [float(n['total_prix'])*0.3 for n in baux_par_mois]
 
     return render(request, 'home/index.html', {
         'proprietaire': proprietaire,
@@ -120,7 +132,9 @@ def homeView(request,offre_id=None):
         'ajoutPropriete': form,
         'baux':baux,
         'maintenances':message,
-        'offres':offre
+        'offres':offre,
+        'chart_labels': labels,
+        'chart_data':   data,
     })
 
 def imprimer_contrat(request, propriete_id):

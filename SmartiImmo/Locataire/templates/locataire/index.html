@@ -96,6 +96,57 @@
             width: 100%;
             margin-top: auto;
         }
+
+        /* Responsive apartment grid */
+        @media (max-width: 768px) {
+            .apartment-grid {
+                grid-template-columns: 1fr;
+                gap: 1.25rem;
+            }
+
+            .apartment-img-wrapper {
+                height: 200px;
+            }
+
+            .apartment-content {
+                padding: 1.25rem;
+            }
+
+            .apartment-price {
+                font-size: 1.25rem;
+            }
+
+            .apartment-title {
+                font-size: 1.1rem;
+            }
+
+            .apartment-features {
+                flex-wrap: wrap;
+                gap: 0.75rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .apartment-grid {
+                gap: 1rem;
+            }
+
+            .apartment-img-wrapper {
+                height: 180px;
+            }
+
+            .apartment-content {
+                padding: 1rem;
+            }
+
+            .apartment-price {
+                font-size: 1.1rem;
+            }
+
+            .apartment-title {
+                font-size: 1rem;
+            }
+        }
     </style>
 </head>
 <body>
