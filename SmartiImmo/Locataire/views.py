@@ -82,7 +82,7 @@ def logoutView(request):
 
 @login_required
 def home_View(request):
-    locataire_obj, _ = Locataire.objects.get_or_create(user=request.user)
+    locataire_obj , _=Locataire.objects.get_or_create(user=request.user)
     contrat = Contrat.objects.all()
     return render(request, 'locataire/index.html', {
         'locataire': locataire_obj,
@@ -127,7 +127,7 @@ def maintenance_view(request):
 
 def imprimerBaux(request, bail_id):
     bail = get_object_or_404(Baux, id=bail_id)
-    return render(request, 'home/locatairebaux.html', {
+    return render(request, 'locataire/locatairebaux.html', {
         'bail': bail
     })
 

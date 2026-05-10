@@ -196,12 +196,12 @@
             
             <div class="card apartment-card">
                 <div class="apartment-img-wrapper">
-                    {% if appartement.image %}
-                        <img src="{{ appartement.image.url }}" alt="{{ appartement.titre }}" class="apartment-img">
+                    {% if appartement.propriete.image %}
+                        <img src="{{ appartement.propriete.image.url }}" alt="{{ appartement.titre }}" class="apartment-img">
                     {% endif %}
                 </div>
                 <div class="apartment-content">
-                    <div class="apartment-price">{{ appartement.prix }} DHS<span style="font-size: 0.875rem; color: var(--text-secondary); font-weight: normal;">/ mois</span></div>
+                    <div class="apartment-price">{{ appartement.prix_min }} DHS<span style="font-size: 0.875rem; color: var(--text-secondary); font-weight: normal;">/ mois</span></div>
                     <h3 class="apartment-title"> {{appartement.propriete.nom}} </h3>
                     <div class="apartment-location">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>

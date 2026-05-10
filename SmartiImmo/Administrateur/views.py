@@ -8,6 +8,7 @@ from django.views.generic import ListView,DetailView
 from .forms import AjoutAgentForm
 from Agents.models import Agents,Baux
 from Proprietaire.models import Propriete
+from .models import Administrateur
 
 
 from django.db.models import Sum
@@ -69,6 +70,7 @@ def homeView(request):
         'baux'      : baux,
         'chart_labels': labels,
         'chart_data': data,
+        'admin':request.user
     })
     
     

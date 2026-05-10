@@ -72,9 +72,9 @@
                 SmartImmo
             </a>
             <div class="navbar-links">
-                <a href=" {% url 'homeLocataire' %} " class="nav-link active">Appartements</a>
+                <a href=" {% url 'homeLocataire' %} " class="nav-link ">Appartements</a>
                 <a href=" {% url 'historyLoc' %} " class="nav-link">Historique</a>
-                <a href=" {% url 'maintenanceLoc' %} " class="nav-link">Maintenance</a>
+                <a href=" {% url 'maintenanceLoc' %} " class="nav-link active">Maintenance</a>
                 <form action=" {% url 'logoutLoc' %} " method="post"  >{% csrf_token %} <button type="submit" class="btn btn-outline" style="padding: 0.5rem 1rem;">LOGOUT</button></form>
             </div>
         </div>
