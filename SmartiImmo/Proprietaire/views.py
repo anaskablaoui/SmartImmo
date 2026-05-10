@@ -127,6 +127,7 @@ def homeView(request,offre_id=None):
     data= [float(n['total_prix'])*0.3 for n in baux_par_mois]
 
     return render(request, 'home/index.html', {
+        'Contrat': Contrat.objects.filter(propriete__proprietaire=request.user.proprietaire),
         'proprietaire': proprietaire,
         'proprietes': proprietes,
         'ajoutPropriete': form,
