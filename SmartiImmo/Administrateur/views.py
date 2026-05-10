@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import get_object_or_404, render,redirect
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 from django.views import View
@@ -8,6 +8,7 @@ from django.views.generic import ListView,DetailView
 from .forms import AjoutAgentForm
 from Agents.models import Agents,Baux
 from Proprietaire.models import Propriete
+
 
 from django.db.models import Sum
 from django.db.models.functions import TruncMonth
@@ -69,6 +70,15 @@ def homeView(request):
         'chart_labels': labels,
         'chart_data': data,
     })
+    
+    
+def supprimerAgent(request, agent_id):
+    
+    agent = get_object_or_404(Agents, id=agent_id)
+    agent.delete()        
+    return redirect('adminDashboard')
+    
+    
     
 class agentListView(ListView):
     model = Agents

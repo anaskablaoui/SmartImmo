@@ -115,7 +115,7 @@
                             {% if form.errors %}
                             <div class="form-errors">
                                 {% for error in form.non_field_errors %}
-                                <p>⚠ {{ error }}</p>
+                                <p> {{ error }}</p>
                                 {% endfor %}
                             </div>
                             {% endif %}
@@ -180,6 +180,7 @@
                                 <th>Matricule</th>
                                 <th>Email</th>
                                 <th>Téléphone</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody id="agent-tbody">
@@ -194,6 +195,7 @@
                                 <td class="cell-muted">{{ agent.matricule }}</td>
                                 <td class="cell-muted">{{ agent.email }}</td>
                                 <td class="cell-muted">{{ agent.telephone }}</td>
+                                <td><a id="supprimer" href="{% url 'adminSupprimAgent' agent.id %}">supprimer</a></td>
                             </tr>
                             {% empty %}
                             <tr class="empty-row">

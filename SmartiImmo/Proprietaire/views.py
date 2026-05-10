@@ -136,6 +136,11 @@ def homeView(request,offre_id=None):
         'chart_labels': labels,
         'chart_data':   data,
     })
+    
+def supprimerPropriete(request,propriete_id):
+    propriete = get_object_or_404(Propriete,id=propriete_id)
+    propriete.delete()
+    return redirect('home')
 
 def imprimer_contrat(request, propriete_id):
     propriete = get_object_or_404(Propriete, id=propriete_id)

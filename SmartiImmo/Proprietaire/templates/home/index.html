@@ -101,6 +101,9 @@
                                         <a href="{% url 'imprimer_contrat' propriete.id %}" target="_blank" class="btn">
                                              Imprimer contrat
                                         </a>
+                                        <a href="{% url 'supprimerPropriete' propriete.id %}" target="_blank" class="btn">
+                                             Supprimer
+                                        </a>
                                     </td>
                                 {% endfor %}
                             </tbody>

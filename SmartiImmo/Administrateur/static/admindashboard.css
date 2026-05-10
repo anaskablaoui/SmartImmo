@@ -718,3 +718,16 @@ main {
 
     .agent-avatar { width: 26px; height: 26px; font-size: 9px; }
 }
+
+#supprimer{
+    text-decoration: none;
+    padding: 10px;
+    background-color: #006A59;
+    color: #e2e2e2;
+    border-radius: 5px;
+}
+
+#supprimer:hover{
+    background-color: #3a9470;
+    box-shadow: 0 0 1 #0000;
+}
