@@ -135,15 +135,16 @@ def imprimerBaux(request, bail_id):
 def demandelocationView(request,contrat_id):
     contrat = get_object_or_404(Contrat,id=contrat_id)
     if request.method == 'POST':
-        form=demandeLocationForm()
+        form=demandeLocationForm(request.POST)
         if form.is_valid():
-            form.save(commit=False)
-            form.propriete=contrat.propriete
-            form.dateDemande=timezone.now().date()
-            form.locataire=Locataire.objects.get(user=request.user)
-            form.save()
+            demande=form.save(commit=False)
+            demande.propriete=contrat.propriete
+            demande.dateDemande=timezone.now().date()
+            demande.locataire=Locataire.objects.get(user=request.user)
+            demande.save()
             messages.success(request, "Demande de location soumise avec succès.")
             return redirect('homeLocataire')
+        
     else:
         form=demandeLocationForm()
 
