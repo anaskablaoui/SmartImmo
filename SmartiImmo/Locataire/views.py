@@ -50,11 +50,10 @@ def auth_view(request):
                     password  = data['password'],
                     nom       = data['nom'],
                     prenom    = data['prenom'],
-                    role      = 'locataire',       # rôle fixé automatiquement
+                    role      = 'locataire',       
                 )
 
-                # 2. Compléter le profil Proprietaire (signal crée la ligne,
-                #    on met à jour les champs spécifiques)
+                
                 locataire, _ = Locataire.objects.get_or_create(user=user)
                 locataire.cin       = data['cin']
                 locataire.telephone = data['telephone']

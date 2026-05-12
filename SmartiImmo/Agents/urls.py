@@ -9,5 +9,5 @@ urlpatterns = [
     path("contrat/<int:contrat_id>/imprimer/", imprimer_contrat, name="contrat"),
     path('home/accepter/<int:offre_id>/', homeView, name='agentDashboardAccepter'),
     path('home/contrat/<int:propriete_id>/', homeView, name='agentDashboardContrat'),
-    path('supprimer/offre/<int:demandeLocation_id',supprimerOffreLocation,name='supprimerOffre')
+    path('supprimer/offre/<int:demandeLocation_id>',supprimerOffreLocation,name='supprimerOffre')
 ]

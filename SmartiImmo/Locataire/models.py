@@ -5,8 +5,8 @@ from Proprietaire.models import Propriete
 class Locataire(models.Model):
     user      = models.OneToOneField(CustomUser, on_delete=models.CASCADE,
                                      related_name='locataire')
-    cin       = models.CharField(max_length=10, unique=True)
-    telephone = models.CharField(max_length=10, unique=True)
+    cin       = models.CharField(max_length=10)
+    telephone = models.CharField(max_length=10)
 
     class Meta:
         verbose_name        = 'Locataire'
