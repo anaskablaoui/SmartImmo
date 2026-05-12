@@ -431,6 +431,23 @@ main {
     text-align: center;
 }
 
+.btn-supprimer {
+    display: inline-block;
+    background-color: #b71c1c;
+    color: #ffffff;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 10px 20px;
+    font-family: "Poppins", sans-serif;
+    font-size: 13.5px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.18s, transform 0.1s;
+    text-align: center;
+}
+.btn-supprimer:hover{
+    background-color: #e53935;
+}
 .btn:hover {
     background: var(--green-dark);
     color: #ffffff;
@@ -625,4 +642,20 @@ main {
         width: 45px;
         height: 34px;
     }
+}
+
+.supprimer{
+    border-radius: 8px;
+    border: none;
+    padding: 10px;
+    background-color: #b71c1c;
+}
+
+.supprimer a {
+    text-decoration: none;
+    color: #e1f5ee;
+}
+
+.supprimer:hover{
+    background-color: #e53935;
 }

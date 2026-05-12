@@ -123,6 +123,7 @@
                         <p><strong>Locataire:</strong> {{ offre.locataire.nom }} {{ offre.locataire.prenom }}</p>
                         <p><strong>Date:</strong> {{ offre.dateDemande }}</p>
                         <button type="submit">Accepter</button>
+                        <button class="supprimer"><a href=" {% url 'supprimerOffre' offre.id %} ">decliner</a></button>
                     </div>
                     
                     

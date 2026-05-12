@@ -24,6 +24,6 @@ urlpatterns = [
     path('proprietaire/',include('Proprietaire.urls')),
     path('agent/',include('Agents.urls')),
     path('locataire/',include('Locataire.urls'))
-]
+] 
 
 urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

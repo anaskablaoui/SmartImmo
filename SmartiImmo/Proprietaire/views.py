@@ -143,6 +143,11 @@ def supprimerPropriete(request,propriete_id):
     propriete.delete()
     return redirect('home')
 
+def supprimerOffre(request,offre_id):
+    offre = get_object_or_404(Offre,id=offre_id)
+    offre.delete()
+    return redirect ('home')
+
 def imprimer_contrat(request, propriete_id):
     propriete = get_object_or_404(Propriete, id=propriete_id)
     contrat = Contrat.objects.filter(propriete=propriete).first()

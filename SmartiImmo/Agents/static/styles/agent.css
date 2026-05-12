@@ -727,3 +727,18 @@ form p label {
         font-size: 13px;
     }
 }
+.supprimer{
+    border-radius: 8px;
+    border: none;
+    padding: 10px;
+    background-color: #b71c1c;
+}
+
+.supprimer a {
+    text-decoration: none;
+    color: #e1f5ee;
+}
+
+.supprimer:hover{
+    background-color: #e53935;
+}

@@ -105,6 +105,11 @@ def imprimer_baux(request, bail_id):
         'bail': bail
     })
 
+def supprimerOffreLocation(request,demandeLocation_id):
+    demande=get_object_or_404(demandeLocation,id=demandeLocation_id)
+    demande.delete()
+    return redirect('agentDashboard')
+
 def imprimer_contrat(request, contrat_id):
     contrat = get_object_or_404(Contrat, id=contrat_id)
     return render(request, 'home/contrat.html', {

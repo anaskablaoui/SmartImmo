@@ -101,7 +101,7 @@
                                         <a href="{% url 'imprimer_contrat' propriete.id %}" target="_blank" class="btn">
                                              Imprimer contrat
                                         </a>
-                                        <a href="{% url 'supprimerPropriete' propriete.id %}" target="_blank" class="btn">
+                                        <a href="{% url 'supprimerPropriete' propriete.id %}" target="_blank" class="btn-supprimer">
                                              Supprimer
                                         </a>
                                     </td>
@@ -178,6 +178,7 @@
                         <p>prix: {{offre.prix}} </p>
                         <p>pourcentage: {{offre.pourcentage}} </p>
                         <button type="submit" class="btn">Accepter</button>
+                        <button class="supprimer"><a href=" {% url 'supprimerOffre' offre.id %} ">Supprimer</a></button>
                     </div>
                 </form>
             {% endfor %}
